@@ -1,19 +1,23 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.application;
+
+import com.twu.biblioteca.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BibliotecaApp {
+public class Biblioteca {
 
     private static String welcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
 
+    private ApplicationIO io = ApplicationIO.getInstance();
+
     List<Book> books;
 
-    public BibliotecaApp() {
+    public Biblioteca() {
         this.books = new ArrayList<>();
     }
 
-    public BibliotecaApp(List<Book> books) {
+    public Biblioteca(List<Book> books) {
         this.books = books;
     }
 
@@ -23,13 +27,12 @@ public class BibliotecaApp {
     }
 
     private void welcomeUser() {
-        System.out.print(welcomeMessage);
+        io.print(welcomeMessage);
     }
 
     private void listBooks() {
         for(Book book : books) {
-            System.out.println(book.getTitle());
+            io.print(book.getTitle() + " | " + book.getAuthor() + " | " + book.getPublicationYear());
         }
     }
-
 }
