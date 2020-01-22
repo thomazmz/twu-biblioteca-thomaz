@@ -29,12 +29,4 @@ public class ApplicationTest {
         // Then
         verify(io).print("Welcome!\n");
     }
-
-    @Test
-    public void listOfBooksMustBePrintedOutWhenAppIsStarted() {
-        // When
-        biblioteca.start();
-        // Then
-        verify(io, times(2)).print(isA(Book.class));
-    }
 }

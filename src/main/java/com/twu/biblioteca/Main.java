@@ -1,11 +1,22 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.application.Biblioteca;
+import com.twu.biblioteca.application.Application;
+import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.domain.book.Book;
+import com.twu.biblioteca.domain.book.BookRepository;
 
 public class Main {
 
     public static void main(String[] args) {
-        Biblioteca bibliotecaApp = new Biblioteca();
-        bibliotecaApp.start();
+
+        ApplicationIO io = new ApplicationIO(System.in, System.out);
+
+        BookRepository bookRepository = new BookRepository();
+        bookRepository.create(new Book("A Clockwork Orange", "Anthony Burgess", 1962));
+        bookRepository.create(new Book("Brave New World", "Aldous Huxley", 1932));
+
+        Application biblioteca = new Application(bookRepository, io);
+        biblioteca.start();
+
     }
 }

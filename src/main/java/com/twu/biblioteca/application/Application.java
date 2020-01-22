@@ -1,5 +1,6 @@
 package com.twu.biblioteca.application;
 
+import com.twu.biblioteca.application.menu.Menu;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
 
@@ -25,7 +26,15 @@ public class Application {
 
     public void start() {
         welcomeUser();
-        listBooks();
+        printMenu();
+    }
+
+    private void printMenu() {
+        Menu menu = new Menu("Main Menu:", io);
+        menu.putOption("1", "List all registered books", () -> {
+            listBooks();
+        });
+        menu.print();
     }
 
     private void welcomeUser() {
