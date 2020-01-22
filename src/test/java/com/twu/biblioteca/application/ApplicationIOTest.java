@@ -1,38 +1,48 @@
 package com.twu.biblioteca.application;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ApplicationIOTest {
 
-    private final ByteArrayOutputStream temporaryOutputStream = new ByteArrayOutputStream();
-    private final PrintStream originalOutputStream = System.out;
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(temporaryOutputStream));
+    public void resetOutputStream() {
+        outputStream.reset();
     }
 
-    @After
-    public void restoreStreams() {
-        System.setOut(originalOutputStream);
+    public InputStream getInputString(String string) {
+        return new ByteArrayInputStream(string.getBytes(StandardCharsets.UTF_8));
     }
+
+    public PrintStream getPrintStream() {
+        return new PrintStream(outputStream);
+    };
 
     @Test
     public void shouldPrintMessage() {
-        // Given
-        ApplicationIO applicationIO = ApplicationIO.getInstance();
-        // When
-        applicationIO.print("Message");
-        // Then
-        assertThat(temporaryOutputStream.toString(), equalTo("Message\n"));
+        String message = "Message";
+        ApplicationIO io = new ApplicationIO(getInputString(""), getPrintStream());
+        io.print(message);
+        String printedMessage = outputStream.toString();
+        assertThat(printedMessage, equalTo(message));
+    }
+
+    @Test
+    public void shouldReadMessage() {
+        String message = "Message";
+        ApplicationIO io = new ApplicationIO(getInputString(message), getPrintStream());
+        String readMessage = io.read();
+        assertThat(readMessage, equalTo(message));
     }
 }

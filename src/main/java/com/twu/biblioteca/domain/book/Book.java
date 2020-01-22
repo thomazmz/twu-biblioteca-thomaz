@@ -1,6 +1,8 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.domain.book;
 
-public class Book {
+import com.twu.biblioteca.domain.Entity;
+
+public class Book extends Entity {
 
     private String title;
 
@@ -24,5 +26,10 @@ public class Book {
 
     public Integer getPublicationYear() {
         return publicationYear;
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + "| " + this.title + " | " + this.author + " | " + this.publicationYear + "\n";
     }
 }
