@@ -52,6 +52,9 @@ public class Menu {
         if(options.containsKey(selectedKey)) {
             MenuOption selectedOption = options.get(selectedKey);
             selectedOption.execute();
+        } else {
+            io.print(invalidInputMessage);
+            readOptionInput();
         }
     }
 }
