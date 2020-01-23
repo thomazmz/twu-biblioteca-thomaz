@@ -1,24 +1,26 @@
 package com.twu.biblioteca.application.menu;
 
-import com.twu.biblioteca.application.ApplicationInterface;
-import com.twu.biblioteca.application.ApplicationInterfaceComponent;
+import com.twu.biblioteca.application.ApplicationIO;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.twu.biblioteca.application.ApplicationInterface.lineBreak;
+import static com.twu.biblioteca.application.ApplicationIO.lineBreak;
 
-public class Menu extends ApplicationInterfaceComponent {
+public class Menu {
 
     private static final String invalidInputMessage = "Please, select a valid option!\n";
+
     private static final String optionDivider = ". ";
+
+    private ApplicationIO applicationIO;
 
     private String instruction;
 
     private Map<String, MenuOption> options = new LinkedHashMap<>();
 
-    public Menu(String instruction, ApplicationInterface applicationInterface) {
-        super(applicationInterface);
+    public Menu(String instruction, ApplicationIO applicationIO) {
+        this.applicationIO = applicationIO;
         this.instruction = instruction;
     }
 
@@ -31,16 +33,15 @@ public class Menu extends ApplicationInterfaceComponent {
         options.put(selector, option);
     }
 
-    @Override
     public void render() {
-        applicationInterface.print(this.toString());
-        String selectedKey = applicationInterface.read();
+        applicationIO.print(this.toString());
+        String selectedKey = applicationIO.read();
         if(options.containsKey(selectedKey)) {
             MenuOption selectedOption = options.get(selectedKey);
             selectedOption.execute();
         } else {
-            applicationInterface.print(invalidInputMessage);
-            applicationInterface.read();
+            applicationIO.print(invalidInputMessage);
+            applicationIO.read();
         }
     }
 

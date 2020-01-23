@@ -1,6 +1,6 @@
 package com.twu.biblioteca.application.menu;
 
-import com.twu.biblioteca.application.ApplicationInterface;
+import com.twu.biblioteca.application.ApplicationIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
@@ -12,16 +12,18 @@ import static org.mockito.Mockito.*;
 
 public class MenuTest {
 
-    private ApplicationInterface applicationInterface;
+    private ApplicationIO applicationIO;
+
     private MenuOption menuOption;
+
     private Menu menu;
 
     @Before
     public void setUp() {
         // Given
-        applicationInterface = mock(ApplicationInterface.class);
+        applicationIO = mock(ApplicationIO.class);
         menuOption = new MenuOption("OptionOne", () -> { });
-        menu = new Menu("Options:", applicationInterface);
+        menu = new Menu("Options:", applicationIO);
         menu.putOption("1", menuOption);
     }
 
@@ -38,27 +40,27 @@ public class MenuTest {
     @Test
     public void shouldPrintMenuOptions() {
         // Given
-        when(applicationInterface.read()).thenReturn("1");
+        when(applicationIO.read()).thenReturn("1");
         // When
         menu.render();
         // Then
-        verify(applicationInterface, atLeast(1)).print(menu.toString());
+        verify(applicationIO, atLeast(1)).print(menu.toString());
     }
 
     @Test
     public void shouldExecuteSelectedMenuOption() {
         // Given
-        when(applicationInterface.read()).thenReturn("1");
+        when(applicationIO.read()).thenReturn("1");
         // When
         menu.render();
         // Then
-        verify(applicationInterface, atLeast(1)).print(menu.toString());
+        verify(applicationIO, atLeast(1)).print(menu.toString());
     }
 
     @Test
     public void shouldNotifyUserWhenInvalidOptionIsSelected() {
         // Given
-        when(applicationInterface.read()).then(new Answer() {
+        when(applicationIO.read()).then(new Answer() {
             private int count = 0;
             public Object answer(InvocationOnMock invocation) {
                 if (++count == 1) return "2";
@@ -68,6 +70,6 @@ public class MenuTest {
         // When
         menu.render();
         // Then
-        verify(applicationInterface, atLeastOnce()).print("Please, select a valid option!\n");
+        verify(applicationIO, atLeastOnce()).print("Please, select a valid option!\n");
     }
 }
