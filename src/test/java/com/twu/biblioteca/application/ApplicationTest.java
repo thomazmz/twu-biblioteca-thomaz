@@ -9,13 +9,13 @@ import static org.mockito.Mockito.*;
 
 public class ApplicationTest {
 
-    private ApplicationIO io;
+    private ApplicationInterface io;
     private BookRepository bookRepository;
     private Application biblioteca;
 
     @Before
     public void setUp() {
-        io = mock(ApplicationIO.class);
+        io = mock(ApplicationInterface.class);
         bookRepository = new BookRepository();
         bookRepository.create(new Book("A Clockwork Orange", "Anthony Burgess", 1962));
         bookRepository.create(new Book("Brave New World", "Aldous Huxley", 1932));

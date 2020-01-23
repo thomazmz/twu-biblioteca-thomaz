@@ -1,59 +1,64 @@
 package com.twu.biblioteca.application.menu;
 
-import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.application.ApplicationInterface;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class MenuTest {
 
-    private ApplicationIO io;
+    private ApplicationInterface applicationInterface;
+    private MenuOption menuOption;
     private Menu menu;
 
     @Before
     public void setUp() {
-        io = mock(ApplicationIO.class);
-        menu = new Menu("Menu", io);
+        // Given
+        applicationInterface = mock(ApplicationInterface.class);
+        menuOption = new MenuOption("OptionOne", () -> { });
+        menu = new Menu("Options:", applicationInterface);
+        menu.putOption("1", menuOption);
     }
 
     @Test
-    public void shouldPrintOptions() {
+    public void shouldReturnMenuString() {
         // Given
-        Menu menu = new Menu("Options:", io);
-        menu.putOption("1", "OptionOne", () -> { });
-        menu.putOption("2", "OptionTwo", () -> { });
-        when(io.read()).thenReturn("1");
+        String expectedString = "Options:\n1. OptionOne\n";
         // When
-        menu.print();
+        String menuString = menu.toString();
         // Then
-        verify(io).print("Options:\n");
-        verify(io).print("1. OptionOne\n");
-        verify(io).print("2. OptionTwo\n");
+        assertThat(menuString, equalTo(expectedString));
     }
 
     @Test
-    public void shouldExecuteSelectedOption() {
+    public void shouldPrintMenuOptions() {
         // Given
-        Menu menu = new Menu("Options:", io);
-        MenuOption option = mock(MenuOption.class);
-        menu.putOption("1", option);
-        when(io.read()).thenReturn("1");
+        when(applicationInterface.read()).thenReturn("1");
         // When
-        menu.print();
+        menu.render();
         // Then
-        verify(option, atLeast(1)).execute();
+        verify(applicationInterface, atLeast(1)).print(menu.toString());
+    }
+
+    @Test
+    public void shouldExecuteSelectedMenuOption() {
+        // Given
+        when(applicationInterface.read()).thenReturn("1");
+        // When
+        menu.render();
+        // Then
+        verify(applicationInterface, atLeast(1)).print(menu.toString());
     }
 
     @Test
     public void shouldNotifyUserWhenInvalidOptionIsSelected() {
         // Given
-        Menu menu = new Menu("Options:", io);
-        MenuOption option = mock(MenuOption.class);
-        menu.putOption("1", option);
-        when(io.read()).then(new Answer() {
+        when(applicationInterface.read()).then(new Answer() {
             private int count = 0;
             public Object answer(InvocationOnMock invocation) {
                 if (++count == 1) return "2";
@@ -61,9 +66,8 @@ public class MenuTest {
             }
         });
         // When
-        menu.print();
+        menu.render();
         // Then
-        verify(io, atLeastOnce()).print("Please, select a valid option!\n");
-
+        verify(applicationInterface, atLeastOnce()).print("Please, select a valid option!\n");
     }
 }

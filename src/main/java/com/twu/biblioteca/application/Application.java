@@ -10,39 +10,34 @@ public class Application {
 
     private static String welcomeMessage = "Welcome!\n";
 
-    private ApplicationIO io;
+    private ApplicationInterface applicationInterface;
 
     private BookRepository bookRepository;
 
-    public Application(BookRepository bookRepository, ApplicationIO io) {
+    public Application(BookRepository bookRepository, ApplicationInterface applicationInterface) {
         this.bookRepository = bookRepository;
-        this.io = io;
-    }
-
-    public Application(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-        this.io = new ApplicationIO(System.in, System.out);
+        this.applicationInterface = applicationInterface;
     }
 
     public void start() {
         welcomeUser();
-        printMenu();
+        renderMainMenu();
     }
 
-    private void printMenu() {
-        Menu menu = new Menu("Main Menu:", io);
-        menu.putOption("1", "List all registered books", () -> {
+    private void renderMainMenu() {
+        Menu mainMenu = new Menu("Main Menu:", applicationInterface);
+        mainMenu.putOption("1", "List all registered books", () -> {
             listBooks();
         });
-        menu.print();
+        mainMenu.render();
     }
 
     private void welcomeUser() {
-        io.print(welcomeMessage);
+        applicationInterface.print(welcomeMessage);
     }
 
     private void listBooks() {
         Set<Book> books = bookRepository.getAll();
-        books.forEach(book -> io.print(book));
+        books.forEach(book -> applicationInterface.print(book));
     }
 }

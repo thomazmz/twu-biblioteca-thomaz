@@ -1,7 +1,7 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.application.Application;
-import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.application.ApplicationInterface;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
 
@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ApplicationIO io = new ApplicationIO(System.in, System.out);
+        ApplicationInterface io = new ApplicationInterface(System.in, System.out);
 
         BookRepository bookRepository = new BookRepository();
         bookRepository.create(new Book("A Clockwork Orange", "Anthony Burgess", 1962));

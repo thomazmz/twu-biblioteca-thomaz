@@ -11,12 +11,13 @@ public class MenuOption {
         this.commannd = command;
     }
 
-    public void execute() {
-        commannd.execute();
+    @Override
+    public String toString() {
+        return sentence;
     }
 
-    public String getSentence() {
-        return sentence;
+    public void execute() {
+        commannd.execute();
     }
 
     public interface MenuOptionCommand {

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-public class ApplicationIOTest {
+public class ApplicationInterfaceTest {
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -32,7 +32,7 @@ public class ApplicationIOTest {
     @Test
     public void shouldPrintMessage() {
         String message = "Message";
-        ApplicationIO io = new ApplicationIO(getInputString(""), getPrintStream());
+        ApplicationInterface io = new ApplicationInterface(getInputString(""), getPrintStream());
         io.print(message);
         String printedMessage = outputStream.toString();
         assertThat(printedMessage, equalTo(message));
@@ -41,7 +41,7 @@ public class ApplicationIOTest {
     @Test
     public void shouldReadMessage() {
         String message = "Message";
-        ApplicationIO io = new ApplicationIO(getInputString(message), getPrintStream());
+        ApplicationInterface io = new ApplicationInterface(getInputString(message), getPrintStream());
         String readMessage = io.read();
         assertThat(readMessage, equalTo(message));
     }
