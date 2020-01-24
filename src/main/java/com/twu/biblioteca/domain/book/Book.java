@@ -10,22 +10,25 @@ public class Book extends Entity {
 
     private Integer publicationYear;
 
+    private Boolean available;
+
     public Book(String title, String author, Integer publicationYear) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
+        this.available = true;
     }
 
-    public String getTitle() {
-        return title;
+    public Boolean isAvailable() {
+        return this.available;
     }
 
-    public String getAuthor() {
-        return author;
+    public void checkOut() {
+        this.available = false;
     }
 
-    public Integer getPublicationYear() {
-        return publicationYear;
+    public void checkIn() {
+        this.available = true;
     }
 
     @Override
