@@ -1,12 +1,13 @@
 package com.twu.biblioteca.application.menu;
 
-public class MenuOption {
+class MenuOption {
 
     private String sentence;
 
-    private MenuOptionCommand commannd;
+    private MenuCommand commannd;
 
-    public MenuOption(String sentence, MenuOptionCommand command) {
+    public MenuOption(final String sentence,
+                         final MenuCommand command) {
         this.sentence = sentence;
         this.commannd = command;
     }
@@ -18,9 +19,5 @@ public class MenuOption {
 
     public void execute() {
         commannd.execute();
-    }
-
-    public interface MenuOptionCommand {
-        void execute();
     }
 }

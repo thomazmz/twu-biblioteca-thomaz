@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -42,7 +41,7 @@ public class ApplicationIOTest {
     @Test
     public void shouldReadMessage() {
         // When
-        String readMessage = applicationIO.read();
+        String readMessage = applicationIO.readString();
         // Then
         assertThat(readMessage, equalTo(messageString));
     }
