@@ -6,8 +6,8 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 
 public class ApplicationController {
 
-    private static final String BOOKS_HEADER = "---- BOOKS ---------------------------------------------------------------";
-    private static final String AVAILABLE_BOOKS_HEADER = "---- AVAILABLE BOOKS -----------------------------------------------------";
+    public static final String BOOKS_HEADER = "---- BOOKS ---------------------------------------------------------------";
+    public static final String AVAILABLE_BOOKS_HEADER = "---- AVAILABLE BOOKS -----------------------------------------------------";
 
     private BookRepository bookRepository;
     private ApplicationIO applicationIO;
@@ -26,7 +26,7 @@ public class ApplicationController {
     public void listAvailableBooks() {
         applicationIO.print(LINE_BREAK + AVAILABLE_BOOKS_HEADER + LINE_BREAK);
         bookRepository.getAvailableBooks()
-                .forEach(book -> applicationIO.print(book + "\n"));
+                .forEach(book -> applicationIO.print(book + LINE_BREAK));
     }
 
 }
