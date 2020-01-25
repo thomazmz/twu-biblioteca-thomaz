@@ -5,9 +5,7 @@ import com.twu.biblioteca.application.Application;
 public class Main {
 
     public static void main(String[] args) {
-
-        Application biblioteca = new Application();
-        biblioteca.start();
-
+        com.twu.biblioteca.application.Application application = new Application();
+        application.start();
     }
 }

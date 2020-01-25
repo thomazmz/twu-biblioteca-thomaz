@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 public class ApplicationIO {
 
-    public static final String defaultErrorMessage = "Invalid input.";
-
-    public static final String lineBreak = "\n";
+    public final static String LINE_BREAK = "\n";
 
     private Scanner scanner;
 
@@ -28,30 +26,7 @@ public class ApplicationIO {
         outputStream.print(object);
     }
 
-    public static boolean isValidString(String str) {
-        if(str != null && !str.trim().isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
     public String readString(){
         return scanner.next();
-    }
-
-    public Long readLong(String errorMessage){
-        Long input = null;
-        Boolean invalidInput = true;
-
-        do {
-            try {
-                input = scanner.nextLong();
-                invalidInput = false;
-            } catch (Exception e) {
-                print(errorMessage);
-                scanner.next();
-            }
-        } while(invalidInput);
-        return input;
     }
 }

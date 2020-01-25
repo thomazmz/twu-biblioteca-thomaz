@@ -1,15 +1,12 @@
-package com.twu.biblioteca.domain.book;
+package com.twu.biblioteca.domain;
 
 import com.twu.biblioteca.domain.Entity;
 
 public class Book extends Entity {
 
     private String title;
-
     private String author;
-
     private Integer publicationYear;
-
     private Boolean available;
 
     public Book(String title, String author, Integer publicationYear) {
@@ -19,20 +16,23 @@ public class Book extends Entity {
         this.available = true;
     }
 
-    public Boolean isAvailable() {
-        return this.available;
+    public Boolean isAvailableForCheckOut() {
+        return available;
     }
 
     public void checkOut() {
-        this.available = false;
+        available = false;
     }
 
     public void checkIn() {
-        this.available = true;
+        available = true;
     }
 
     @Override
     public String toString() {
-        return this.getId() + "| " + this.title + " | " + this.author + " | " + this.publicationYear + "\n";
+        return String.format("%-5s", getId()) +
+               String.format("%-40s", title) +
+               String.format("%-25s", author) +
+               String.format("%-5d", publicationYear);
     }
 }

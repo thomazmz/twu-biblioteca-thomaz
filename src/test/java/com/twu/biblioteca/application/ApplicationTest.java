@@ -1,40 +1,40 @@
 package com.twu.biblioteca.application;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
 public class ApplicationTest {
 
-    private ApplicationIO applicationIO;
-    private Application biblioteca;
+    public Application application;
+
+    public ApplicationIO applicationIO;
 
     @Before
-    public void setUp() {
+    public void set_up() {
+        // Given
         applicationIO = mock(ApplicationIO.class);
-//        bookRepository = new BookRepository();
-//        bookRepository.create(new Book("A Clockwork Orange", "Anthony Burgess", 1962));
-//        bookRepository.create(new Book("Brave New World", "Aldous Huxley", 1932));
-        biblioteca = new Application();
+        application = new Application(applicationIO);
     }
 
-    @Ignore
     @Test
-    public void shouldPrintWelcomeMessage() {
-        // When
-        biblioteca.start();
-        // Then
-        verify(applicationIO).print("Welcome!\n");
+    public void should_print_welcome_message_when_application_starts() {
+
     }
 
-    @Ignore
     @Test
-    public void ShouldQuitTheApplicationWhenChooseTheOptionTo() {
-        // When
-        biblioteca.start();
-        // Then
-        verify(applicationIO).print("Welcome!\n");
+    public void should_print_menu_when_application_starts() {
+
+    }
+
+    @Test
+    public void should_print_warning_when_invalid_option_is_selected_on_menu() {
+
+    }
+
+    @Test
+    public void should_only_terminate_when_user_types_the_quit_option() {
+
     }
 }

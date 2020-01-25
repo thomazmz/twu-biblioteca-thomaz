@@ -7,29 +7,29 @@ public abstract class Repository<T extends Entity> {
 
     private Long counter;
 
-    private Map<Long, T> instances = new HashMap();
+    private Map<Long, T> instances = new LinkedHashMap<>();
 
     public Repository() {
         counter = 0L;
     }
 
     public Set<T> getAll() {
-        return this.instances.values().stream().collect(Collectors.toSet());
-    };
-
-    public T create(T instance) {
-        instance.setId(++counter);
-        this.instances.put(instance.getId(), instance);
-        return instance;
+        return new LinkedHashSet<>(instances.values());
     }
 
-    public Optional<T> findById(Long id) {
-        T instance = this.instances.get(id);
+    public Optional<T> getById(Long id) {
+        T instance = instances.get(id);
         return Optional.ofNullable(instance);
     }
 
-    public void deleteById(Long id) {
-        T instance = this.instances.get(id);
-        this.instances.remove(instance.getId());
+    public T create(T instance) {
+        instance.setId(++counter);
+        instances.put(instance.getId(), instance);
+        return instance;
+    }
+
+    public void delete(Long instanceId) {
+        if(instances.get(instanceId) != null)
+            instances.remove(instanceId);
     }
 }

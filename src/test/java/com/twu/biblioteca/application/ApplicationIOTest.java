@@ -10,39 +10,39 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class ApplicationIOTest {
 
-    private static final String messageString = "Message";
+    private static final String inputString = "Input";
 
-    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private ByteArrayOutputStream outputStream;
 
     private ApplicationIO applicationIO;
 
     @Before
-    public void resetOutputStream() {
+    public void set_up() {
         // Given
-        outputStream.reset();
+        outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
-        InputStream inputStream = new ByteArrayInputStream(messageString.getBytes(StandardCharsets.UTF_8));
+        InputStream inputStream = new ByteArrayInputStream(inputString.getBytes(StandardCharsets.UTF_8));
         applicationIO = new ApplicationIO(inputStream, printStream);
     }
 
     @Test
-    public void shouldPrintMessage() {
+    public void should_print_message() {
         // When
-        applicationIO.print(messageString);
+        applicationIO.print(inputString);
         String printedMessage = outputStream.toString();
         // Then
-        assertThat(printedMessage, equalTo(messageString));
+        assertThat(printedMessage, equalTo(inputString));
     }
 
     @Test
-    public void shouldReadMessage() {
+    public void should_read_message() {
         // When
         String readMessage = applicationIO.readString();
         // Then
-        assertThat(readMessage, equalTo(messageString));
+        assertThat(readMessage, equalTo(inputString));
     }
 }
