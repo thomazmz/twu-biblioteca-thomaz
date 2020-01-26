@@ -8,7 +8,10 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 
 public class Menu {
 
-    public String header;
+    public static final String INVALID_OPTION_MESSAGE =  "Please, select a valid option.\n";
+
+    private String header;
+
     private Map<String, Option> options;
 
     public Menu(String header) {
@@ -23,6 +26,16 @@ public class Menu {
 
     public Optional<Option> select(String key) {
             return Optional.ofNullable(options.get(key));
+    }
+
+    public void readInput(ApplicationIO applicationIO) {
+        Optional<Menu.Option> selectedOption = this.select(applicationIO.read());
+        if(selectedOption.isPresent()) {
+            selectedOption.get().execute();
+        } else {
+            applicationIO.print(INVALID_OPTION_MESSAGE);
+            readInput(applicationIO);
+        }
     }
 
     @Override

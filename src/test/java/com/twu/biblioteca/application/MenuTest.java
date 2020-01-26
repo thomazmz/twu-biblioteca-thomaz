@@ -2,13 +2,16 @@ package com.twu.biblioteca.application;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeast;
 
 public class MenuTest {
 
@@ -50,5 +53,15 @@ public class MenuTest {
         Optional<Menu.Option> optional = menu.select("InvalidSelector");
         // Then
         assertThat(optional.isPresent(), is(false));
+    }
+
+    @Test
+    public void should_print_warning_when_invalid_option_is_selected_on_menu() {
+        // When
+        ApplicationIO applicationIO = mock(ApplicationIO.class);
+        when(applicationIO.read()).thenReturn( "2", "1" );
+        menu.readInput(applicationIO);
+        // Then
+        verify(applicationIO, atLeastOnce()).print(Menu.INVALID_OPTION_MESSAGE);
     }
 }

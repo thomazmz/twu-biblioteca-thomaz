@@ -7,9 +7,11 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 public class ApplicationController {
 
     public static final String BOOKS_HEADER = "---- BOOKS ---------------------------------------------------------------";
+
     public static final String AVAILABLE_BOOKS_HEADER = "---- AVAILABLE BOOKS -----------------------------------------------------";
 
     private BookRepository bookRepository;
+
     private ApplicationIO applicationIO;
 
     public ApplicationController(BookRepository bookRepository, ApplicationIO applicationIO) {

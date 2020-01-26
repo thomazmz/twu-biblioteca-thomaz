@@ -5,8 +5,11 @@ import com.twu.biblioteca.domain.Entity;
 public class Book extends Entity {
 
     private String title;
+
     private String author;
+
     private Integer publicationYear;
+
     private Boolean available;
 
     public Book(String title, String author, Integer publicationYear) {

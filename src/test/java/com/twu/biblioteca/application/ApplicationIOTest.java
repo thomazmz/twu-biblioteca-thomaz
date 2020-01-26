@@ -41,7 +41,7 @@ public class ApplicationIOTest {
     @Test
     public void should_read_message() {
         // When
-        String readMessage = applicationIO.readString();
+        String readMessage = applicationIO.read();
         // Then
         assertThat(readMessage, equalTo(inputString));
     }

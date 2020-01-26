@@ -23,7 +23,9 @@ public class BookTest {
 
     @Test
     public void should_return_title_author_and_publication_year() {
+        // When
         String bookString = book.toString();
+        // Then
         assertThat(bookString, containsString(TITLE));
         assertThat(bookString, containsString(AUTHOR));
         assertThat(bookString, containsString(PUBLICATION_YEAR.toString()));

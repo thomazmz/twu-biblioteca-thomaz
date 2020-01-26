@@ -26,7 +26,7 @@ public class ApplicationIO {
         outputStream.print(object);
     }
 
-    public String readString(){
+    public String read(){
         return scanner.next();
     }
 }

@@ -12,9 +12,13 @@ public class Application {
     public static final String WELCOME_MESSAGE = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
 
     private static Boolean isAlive = true;
-    private ApplicationIO applicationIO;
-    private ApplicationController applicationController;
+
     private Menu menu;
+
+    private ApplicationIO applicationIO;
+
+    private ApplicationController applicationController;
+
 
     public Application() {
 
@@ -45,6 +49,7 @@ public class Application {
     }
 
     public Application(ApplicationIO applicationIO) {
+        this();
         this.applicationIO = applicationIO;
     }
 
@@ -56,17 +61,7 @@ public class Application {
 
     private void renderMenu() {
         applicationIO.print(menu);
-        readMenuInput();
-    }
-
-    private void readMenuInput() {
-        Optional<Menu.Option> selectedOption = menu.select(applicationIO.readString());
-        if(selectedOption.isPresent()) {
-            selectedOption.get().execute();
-        } else {
-            applicationIO.print("Please, select a valid option.\n");
-            readMenuInput();
-        }
+        menu.readInput(applicationIO);
     }
 
     public void kill() {
