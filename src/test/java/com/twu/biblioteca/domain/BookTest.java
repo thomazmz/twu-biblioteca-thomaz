@@ -30,12 +30,4 @@ public class BookTest {
         assertThat(bookString, containsString(AUTHOR));
         assertThat(bookString, containsString(PUBLICATION_YEAR.toString()));
     }
-
-    @Test
-    public void should_check_out_and_check_in_book() {
-        book.checkOut();
-        assertThat(book.isAvailableForCheckOut(), is(false));
-        book.checkIn();
-        assertThat(book.isAvailableForCheckOut(), is(true));
-    }
 }

@@ -19,14 +19,14 @@ public class BookRepository extends Repository<Book> {
     public Set<Book> getAvailableBooks() {
         return getAll()
                 .stream()
-                .filter(book -> book.isAvailableForCheckOut())
+                .filter(book -> book.isAvailable())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public Set<Book> getUnAvailableBooks() {
         return getAll()
                 .stream()
-                .filter(book -> !book.isAvailableForCheckOut())
+                .filter(book -> !book.isAvailable())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

@@ -1,8 +1,6 @@
 package com.twu.biblioteca.domain;
 
-import com.twu.biblioteca.domain.Entity;
-
-public class Book extends Entity {
+public class Book extends Loanable {
 
     private String title;
 
@@ -10,29 +8,11 @@ public class Book extends Entity {
 
     private Integer publicationYear;
 
-    private Boolean available;
-
     public Book(String title, String author, Integer publicationYear) {
+        super();
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
-        this.available = true;
-    }
-
-    public Object getTitle() {
-        return title;
-    }
-
-    public Boolean isAvailableForCheckOut() {
-        return available;
-    }
-
-    public void checkOut() {
-        available = false;
-    }
-
-    public void checkIn() {
-        available = true;
     }
 
     @Override
