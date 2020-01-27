@@ -30,8 +30,8 @@ public class Movie extends Loanable {
     public String toString() {
         return String.format("%-5s", getId()) +
                 String.format("%-30s", title) +
-                String.format("%-10s", rating) +
-                String.format("%-25s", director) +
-                String.format("%-5s", year);
+                String.format("%-30s", director) +
+                String.format("%-8s", year) +
+                String.format("%-2s", rating);
     }
 }

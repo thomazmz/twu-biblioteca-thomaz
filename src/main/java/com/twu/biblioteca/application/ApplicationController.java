@@ -2,6 +2,8 @@ package com.twu.biblioteca.application;
 
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
+import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieRepository;
 
 import java.util.Optional;
 
@@ -11,10 +13,13 @@ public class ApplicationController {
 
     private BookRepository bookRepository;
 
+    private MovieRepository movieRepository;
+
     private ApplicationIO applicationIO;
 
-    public ApplicationController(BookRepository bookRepository, ApplicationIO applicationIO) {
+    public ApplicationController(BookRepository bookRepository, MovieRepository movieRepository, ApplicationIO applicationIO) {
         this.bookRepository = bookRepository;
+        this.movieRepository = movieRepository;
         this.applicationIO = applicationIO;
     }
 
@@ -26,13 +31,13 @@ public class ApplicationController {
 
     public void availableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE BOOKS ( id | title | author| year )" + LINE_BREAK);
-        bookRepository.getAvailableBooks()
+        bookRepository.getAvailables()
                 .forEach(book -> applicationIO.print(book + LINE_BREAK));
     }
 
     public void unavailableBooks() {
         applicationIO.print(LINE_BREAK + "UNAVAILABLE BOOKS ( id | title | author| year )" + LINE_BREAK);
-        bookRepository.getUnAvailableBooks()
+        bookRepository.getUnavailables()
                 .forEach(book -> applicationIO.print(book + LINE_BREAK));
     }
 
@@ -73,6 +78,33 @@ public class ApplicationController {
                 } else {
                     book.checkIn();
                     applicationIO.print("Thank you for returning the book." + LINE_BREAK);
+                }
+            }
+        }
+    }
+
+    public void availableMovies() {
+        applicationIO.print(LINE_BREAK + "AVAILABLE MOVIES ( id | title | director | year | rating )" + LINE_BREAK);
+        movieRepository.getAvailables()
+                .forEach(book -> applicationIO.print(book + LINE_BREAK));
+    }
+
+    public void movieCheckout() {
+        applicationIO.print(LINE_BREAK + "Type the ID of the movie you would like to check out: ");
+        Optional<Long> userInputOptional = applicationIO.readLong();
+        if(!userInputOptional.isPresent()) {
+            applicationIO.print("Invalid movie ID." + LINE_BREAK);
+        } else {
+            Optional<Movie> movieOptional = movieRepository.getById(userInputOptional.get());
+            if(!movieOptional.isPresent()) {
+                applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
+            } else {
+                Movie movie = movieOptional.get();
+                if(!movie.isAvailable()) {
+                    applicationIO.print("Sorry, that movie is not available." + LINE_BREAK);
+                } else {
+                    movie.checkOut();
+                    applicationIO.print("Thank you! Enjoy the movie" + LINE_BREAK);
                 }
             }
         }

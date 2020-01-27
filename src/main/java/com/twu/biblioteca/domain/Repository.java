@@ -1,7 +1,6 @@
 package com.twu.biblioteca.domain;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class Repository<T extends Entity> {
 

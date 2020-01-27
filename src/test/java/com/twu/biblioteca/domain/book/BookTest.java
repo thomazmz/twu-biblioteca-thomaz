@@ -1,14 +1,12 @@
 package com.twu.biblioteca.domain.book;
 
-import com.twu.biblioteca.domain.book.Book;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Year;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class BookTest {
 

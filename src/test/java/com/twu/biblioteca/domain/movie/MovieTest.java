@@ -33,5 +33,4 @@ public class MovieTest {
         assertThat(bookString, containsString(RATING.toString()));
         assertThat(bookString, containsString(YEAR.toString()));
     }
-
 }

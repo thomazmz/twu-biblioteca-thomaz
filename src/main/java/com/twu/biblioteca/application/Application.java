@@ -2,6 +2,8 @@ package com.twu.biblioteca.application;
 
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
+import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieRepository;
 
 import java.time.Year;
 import java.util.Arrays;
@@ -18,7 +20,6 @@ public class Application {
     private ApplicationIO applicationIO;
 
     private ApplicationController applicationController;
-
 
     public Application() {
 
@@ -37,15 +38,28 @@ public class Application {
                 new Book("Building Evolutionary Architectures1", "Rebecca Parsons", Year.of(2017))
         )));
 
+        MovieRepository movieRepository = new MovieRepository(new LinkedList<Movie>(Arrays.asList(
+                new Movie("The Seven Samurai", "Akira Kurosawa", Year.of(1955), 10),
+                new Movie("Reservoir Dogs", "Quentin Tarantino", Year.of(1992), 10),
+                new Movie("Pan's Labyrinth", "Guillermo del Toro", Year.of(2006), 10),
+                new Movie("The Deer Hunter", "Michael Cimino", Year.of(1978), 10),
+                new Movie("Rocky", "John G. Avildsen", Year.of(1976), 10),
+                new Movie("Memento", "Christopher Nolan", Year.of(2000), 10),
+                new Movie("Die Hard", "John McTiernan", Year.of(1988), 10),
+                new Movie("Ghostbusters", "Ivan Reitman", Year.of(1984), 10)
+        )));
+
         applicationIO = new ApplicationIO();
 
-        applicationController = new ApplicationController(bookRepository, applicationIO);
+        applicationController = new ApplicationController(bookRepository, movieRepository, applicationIO);
 
         menu = new Menu("Main Menu");
         menu.setOption("1", "Show books", applicationController::books);
         menu.setOption("2", "Show available books", applicationController::availableBooks);
-        menu.setOption("3", "Check out a book", applicationController::bookCheckout);
+        menu.setOption("3", "Checkout a book", applicationController::bookCheckout);
         menu.setOption("4", "Return a book", applicationController::bookReturn);
+        menu.setOption("5", "Show available movies", applicationController::availableMovies);
+        menu.setOption("6", "Checkout a movie", applicationController::movieCheckout);
         menu.setOption("Q", "Quit application", this::kill);
 
     }

@@ -11,11 +11,6 @@ public abstract class LoanableRepository<T extends Loanable> extends Repository<
         super();
     }
 
-    public LoanableRepository(List<T> entities) {
-        super();
-        entities.forEach(book -> create(book));
-    }
-
     public Set<T> getAvailables() {
         return getAll()
                 .stream()
