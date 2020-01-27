@@ -5,25 +5,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BookRepository extends LoanableRepository<Book> {
+public abstract class LoanableRepository<T extends Loanable> extends Repository<T> {
 
-    public BookRepository() {
+    public LoanableRepository() {
         super();
     }
 
-    public BookRepository(List<Book> books) {
+    public LoanableRepository(List<T> entities) {
         super();
-        books.forEach(book -> create(book));
+        entities.forEach(book -> create(book));
     }
 
-    public Set<Book> getAvailableBooks() {
+    public Set<T> getAvailables() {
         return getAll()
                 .stream()
-                .filter(book -> book.isAvailable())
+                .filter(entities -> entities.isAvailable())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public Set<Book> getUnAvailableBooks() {
+    public Set<T> getUnavailables() {
         return getAll()
                 .stream()
                 .filter(book -> !book.isAvailable())
