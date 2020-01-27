@@ -5,7 +5,6 @@ import com.twu.biblioteca.domain.BookRepository;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Optional;
 
 public class Application {
 
@@ -30,7 +29,7 @@ public class Application {
                 new Book("Practices of an Agile Developer", "Venkat Subramaniam", 2006),
                 new Book("Clean Code", "Robbert C. Martin", 2008),
                 new Book("Test Driven Development By Example", "Kent Beck", 2000),
-                new Book("Database Management Systems", "Aldous Huxley", 1996),
+                new Book("Database Management Systems", "Raghu Ramakrishnan", 1996),
                 new Book("Practical Unit Testing", "Tomek Kaczanowski", 2019),
                 new Book("Building Microservices", "Sam Newman", 2014),
                 new Book("Designing Event Driven Systems", "Ben Stopford", 2018),
@@ -42,8 +41,10 @@ public class Application {
         applicationController = new ApplicationController(bookRepository, applicationIO);
 
         menu = new Menu("Main Menu");
-        menu.setOption("1", "Show all books", applicationController::listBooks);
-        menu.setOption("2", "Show all available books", applicationController::listAvailableBooks);
+        menu.setOption("1", "Show books", applicationController::books);
+        menu.setOption("2", "Show available books", applicationController::availableBooks);
+        menu.setOption("3", "Check out a book", applicationController::bookCheckout);
+        menu.setOption("4", "Return a book", applicationController::bookReturn);
         menu.setOption("Q", "Quit application", this::kill);
 
     }

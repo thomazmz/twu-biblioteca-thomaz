@@ -29,7 +29,7 @@ public class Menu {
     }
 
     public void readInput(ApplicationIO applicationIO) {
-        Optional<Menu.Option> selectedOption = this.select(applicationIO.read());
+        Optional<Menu.Option> selectedOption = this.select(applicationIO.readString());
         if(selectedOption.isPresent()) {
             selectedOption.get().execute();
         } else {

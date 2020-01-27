@@ -2,6 +2,7 @@ package com.twu.biblioteca.application;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ApplicationIO {
@@ -26,7 +27,15 @@ public class ApplicationIO {
         outputStream.print(object);
     }
 
-    public String read(){
+    public String readString(){
         return scanner.next();
+    }
+
+    public Optional<Long> readLong() {
+        try {
+            return Optional.of(scanner.nextLong());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

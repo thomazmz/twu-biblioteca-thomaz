@@ -22,4 +22,11 @@ public class BookRepository extends Repository<Book> {
                 .filter(book -> book.isAvailableForCheckOut())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
+
+    public Set<Book> getUnAvailableBooks() {
+        return getAll()
+                .stream()
+                .filter(book -> !book.isAvailableForCheckOut())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 }

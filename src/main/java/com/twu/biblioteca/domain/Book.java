@@ -19,6 +19,10 @@ public class Book extends Entity {
         this.available = true;
     }
 
+    public Object getTitle() {
+        return title;
+    }
+
     public Boolean isAvailableForCheckOut() {
         return available;
     }
