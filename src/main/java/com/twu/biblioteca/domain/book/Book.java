@@ -1,4 +1,8 @@
-package com.twu.biblioteca.domain;
+package com.twu.biblioteca.domain.book;
+
+import com.twu.biblioteca.domain.Loanable;
+
+import java.time.Year;
 
 public class Book extends Loanable {
 
@@ -6,13 +10,13 @@ public class Book extends Loanable {
 
     private String author;
 
-    private Integer publicationYear;
+    private Year year;
 
-    public Book(String title, String author, Integer publicationYear) {
+    public Book(String title, String author, Year year) {
         super();
         this.title = title;
         this.author = author;
-        this.publicationYear = publicationYear;
+        this.year = year;
     }
 
     @Override
@@ -20,6 +24,6 @@ public class Book extends Loanable {
         return String.format("%-5s", getId()) +
                String.format("%-40s", title) +
                String.format("%-25s", author) +
-               String.format("%-5d", publicationYear);
+               String.format("%-5s", year);
     }
 }

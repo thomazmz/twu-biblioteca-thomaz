@@ -1,7 +1,7 @@
 package com.twu.biblioteca.application;
 
-import com.twu.biblioteca.domain.Book;
-import com.twu.biblioteca.domain.BookRepository;
+import com.twu.biblioteca.domain.book.Book;
+import com.twu.biblioteca.domain.book.BookRepository;
 
 import java.util.Optional;
 
@@ -47,7 +47,7 @@ public class ApplicationController {
                 applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
             } else {
                 Book book = bookOptional.get();
-                if(!book.isAvailableForCheckOut()) {
+                if(!book.isAvailable()) {
                     applicationIO.print("Sorry, that book is not available." + LINE_BREAK);
                 } else {
                     book.checkOut();
@@ -68,7 +68,7 @@ public class ApplicationController {
                 applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
             } else {
                 Book book = bookOptional.get();
-                if(book.isAvailableForCheckOut()) {
+                if(book.isAvailable()) {
                     applicationIO.print("That is not a valid book to return." + LINE_BREAK);
                 } else {
                     book.checkIn();

@@ -1,4 +1,6 @@
-package com.twu.biblioteca.domain;
+package com.twu.biblioteca.domain.book;
+
+import com.twu.biblioteca.domain.LoanableRepository;
 
 import java.util.LinkedHashSet;
 import java.util.List;
