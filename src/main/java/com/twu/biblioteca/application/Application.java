@@ -3,10 +3,9 @@ package com.twu.biblioteca.application;
 import com.twu.biblioteca.application.book.BookController;
 import com.twu.biblioteca.application.movie.MovieController;
 import com.twu.biblioteca.domain.book.Book;
-import com.twu.biblioteca.domain.book.BookRepository;
+import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
-import com.twu.biblioteca.domain.movie.MovieRepository;
 
 import java.time.Year;
 import java.util.Arrays;
@@ -28,7 +27,7 @@ public class Application {
 
     public Application() {
 
-        BookRepository bookRepository = new BookRepository(new LinkedList<>(Arrays.asList(
+        BorrowableItemRepository bookRepository = new BorrowableItemRepository(new LinkedList<>(Arrays.asList(
                 new Book("Refactoring", "Martin Fowller", Year.of(1999)),
                 new Book("Effective Java", "Joshua Bloch", Year.of(2001)),
                 new Book("Extreme Programming", "Kent Beck", Year.of(1999)),
@@ -43,7 +42,7 @@ public class Application {
                 new Book("Building Evolutionary Architectures", "Rebecca Parsons", Year.of(2017))
         )));
 
-        MovieRepository movieRepository = new MovieRepository(new LinkedList<>(Arrays.asList(
+        BorrowableItemRepository movieRepository = new BorrowableItemRepository(new LinkedList<>(Arrays.asList(
                 new Movie("The Seven Samurai", "Akira Kurosawa", Year.of(1955), 10),
                 new Movie("Reservoir Dogs", "Quentin Tarantino", Year.of(1992), 10),
                 new Movie("Pan's Labyrinth", "Guillermo del Toro", Year.of(2006), 10),

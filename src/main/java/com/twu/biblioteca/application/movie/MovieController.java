@@ -9,7 +9,6 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import java.util.Set;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
-import static com.twu.biblioteca.application.BorrowableItem.BorrowableItemUtils.listBorrowableItems;
 
 public class MovieController {
 
@@ -36,7 +35,7 @@ public class MovieController {
     public void availableMovies() {
         applicationIO.print(LINE_BREAK + "AVAILABLE MOVIES ( id | title | director | year | rating )" + LINE_BREAK);
         Set<BorrowableItem> availableBooks = movieService.getAvailables();
-        listBorrowableItems(availableBooks, applicationIO);
+        applicationIO.print(availableBooks);
     }
 
     public void movieCheckout() {

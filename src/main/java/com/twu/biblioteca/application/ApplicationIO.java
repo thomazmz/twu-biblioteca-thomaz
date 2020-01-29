@@ -1,6 +1,7 @@
 package com.twu.biblioteca.application;
 
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class ApplicationIO {
@@ -28,6 +29,12 @@ public class ApplicationIO {
 
     public void print(Object object) {
         outputStream.print(object);
+    }
+
+    public void print(Collection collection) {
+        if(collection.isEmpty())
+            print("There are no items to show." + LINE_BREAK);
+        collection.forEach(item -> print(item + LINE_BREAK));
     }
 
     public String readString(){

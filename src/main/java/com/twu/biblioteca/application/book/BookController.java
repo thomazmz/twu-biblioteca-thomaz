@@ -9,7 +9,6 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import java.util.Set;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
-import static com.twu.biblioteca.application.BorrowableItem.BorrowableItemUtils.listBorrowableItems;
 
 public class BookController {
 
@@ -42,13 +41,13 @@ public class BookController {
     public void books() {
         applicationIO.print(LINE_BREAK + HEADER + LINE_BREAK);
         Set<BorrowableItem> books = bookService.getAll();
-        listBorrowableItems(books, applicationIO);
+        applicationIO.print(books);
     }
 
     public void availableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
         Set<BorrowableItem> availableBooks = bookService.getAvailables();
-        listBorrowableItems(availableBooks, applicationIO);
+        applicationIO.print(availableBooks);
     }
 
     public void bookCheckout() {

@@ -7,9 +7,12 @@ import org.mockito.Mockito;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -21,20 +24,37 @@ public class ApplicationIOTest {
 
     @Before
     public void setUp() {
+        outputStream = new ByteArrayOutputStream();
         applicationIO = new ApplicationIO();
     }
 
     @Test
     public void shouldPrintMessage() {
         // Given
-        outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         applicationIO.setOutputStream(printStream);
         // When
         applicationIO.print("INPUT");
         String input = outputStream.toString();
         // Then
-        assertThat(input, equalTo("INPUT"));
+        assertThat(input, is("INPUT"));
+    }
+
+    @Test
+    public void shouldPrintCollectionLineByLine() {
+        // Given
+        PrintStream printStream = new PrintStream(outputStream);
+        applicationIO.setOutputStream(printStream);
+        String firstElement = "firstElement";
+        String secondElement = "secondElement";
+        Collection<String> collection = new ArrayList<>();
+        collection.add(firstElement);
+        collection.add(secondElement);
+        // When
+        applicationIO.print(collection);
+        String input = outputStream.toString();
+        //Then
+        assertThat(input, is(firstElement + "\n" + secondElement + "\n"));
     }
 
     @Test
@@ -45,7 +65,7 @@ public class ApplicationIOTest {
         // When
         String input = applicationIO.readString();
         // Then
-        assertThat(input, equalTo("INPUT"));
+        assertThat(input, is("INPUT"));
     }
 
     @Test
@@ -56,7 +76,7 @@ public class ApplicationIOTest {
         // When
         Long input = applicationIO.readLong();
         // Then
-        assertThat(input, equalTo(1L));
+        assertThat(input, is(1L));
     }
 
     @Test

@@ -26,10 +26,6 @@ public class BorrowableItemService {
         return this.borrowableItemRepository.getAvailables();
     }
 
-    public Set<BorrowableItem> getUnavailables() {
-        return this.borrowableItemRepository.getUnavailables();
-    }
-
     public void checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         BorrowableItem borrowableItem = this.borrowableItemRepository.getById(id);
 
