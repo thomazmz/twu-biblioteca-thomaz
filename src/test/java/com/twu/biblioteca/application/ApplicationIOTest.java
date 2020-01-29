@@ -3,19 +3,17 @@ package com.twu.biblioteca.application;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ApplicationIOTest {
-
-    private static String inputString = "1";
 
     private ByteArrayOutputStream outputStream;
 
@@ -23,54 +21,41 @@ public class ApplicationIOTest {
 
     @Before
     public void set_up() {
-        // Given
-        outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-        InputStream inputStream = new ByteArrayInputStream(inputString.getBytes(StandardCharsets.UTF_8));
-        applicationIO = new ApplicationIO(inputStream, printStream);
+        applicationIO = new ApplicationIO();
     }
 
     @Test
     public void should_print_message() {
+        // Given
+        outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        applicationIO.setOutputStream(printStream);
         // When
-        applicationIO.print(inputString);
-        String givenInput = outputStream.toString();
+        applicationIO.print("INPUT");
+        String input = outputStream.toString();
         // Then
-        assertThat(givenInput, equalTo(inputString));
+        assertThat(input, equalTo("INPUT"));
     }
 
     @Test
     public void should_read_string() {
+        // Given
+        Scanner scanner = new Scanner(new ByteArrayInputStream("INPUT".getBytes()));
+        applicationIO.setScanner(scanner);
         // When
-        String inputString = applicationIO.readString();
+        String input = applicationIO.readString();
         // Then
-        assertThat(inputString, equalTo(inputString));
+        assertThat(input, equalTo("INPUT"));
     }
 
     @Test
-    public void should_return_empty_optional_when_not_long() {
+    public void should_read_long() {
+        // Given
+        Scanner scanner = new Scanner(new ByteArrayInputStream("1".getBytes()));
+        applicationIO.setScanner(scanner);
         // When
-        String readMessage = applicationIO.readString();
+        Long input = applicationIO.readLong();
         // Then
-        assertThat(readMessage, equalTo(inputString));
-
-    }
-
-    @Test
-    public void should_return_optional_when_long() {
-        // When
-        Optional<Long> inputOptional = applicationIO.readLong();
-        // Then
-        assertThat(inputOptional.get(), equalTo(1L));
-    }
-
-    @Test
-    public void should_return_empty_optional_when_invalid_long() {
-        // When
-        inputString = "a";
-        this.set_up();
-        Optional<Long> inputOptional = applicationIO.readLong();
-        // Then
-        assertThat(inputOptional.isPresent(), equalTo(false));
+        assertThat(input, equalTo(1L));
     }
 }

@@ -1,13 +1,13 @@
 package com.twu.biblioteca.application;
 
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class ApplicationIO {
 
-    public final static String LINE_BREAK = "\n";
+    public static final String LINE_BREAK = "\n";
+
+    public  static final String INVALID_INTEGER_INPUT_MESSAGE = "You must enter a integer number. Try again: ";
 
     private Scanner scanner;
 
@@ -18,9 +18,12 @@ public class ApplicationIO {
         outputStream = System.out;
     }
 
-    public ApplicationIO(InputStream inputStream, PrintStream outputStream) {
-        this.scanner = new Scanner(inputStream);
+    public void setOutputStream(PrintStream outputStream) {
         this.outputStream = outputStream;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void print(Object object) {
@@ -28,14 +31,16 @@ public class ApplicationIO {
     }
 
     public String readString(){
-        return scanner.next();
+        return scanner.nextLine();
     }
 
-    public Optional<Long> readLong() {
+    public Long readLong() {
         try {
-            return Optional.of(scanner.nextLong());
+            String input = this.readString();
+            return Long.parseLong(input);
         } catch (Exception e) {
-            return Optional.empty();
+            this.print(INVALID_INTEGER_INPUT_MESSAGE);
+            return this.readLong();
         }
     }
 }
