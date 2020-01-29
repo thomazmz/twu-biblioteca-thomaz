@@ -3,11 +3,9 @@ package com.twu.biblioteca.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class RepositoryTest {
 
@@ -22,22 +20,22 @@ public class RepositoryTest {
     @Test
     public void shouldDefineIncrementalId() {
         // When
-        EntityImplementation createdEntityImplementation1 = testableRepository.create(new EntityImplementation());
-        EntityImplementation createdEntityImplementation2 = testableRepository.create(new EntityImplementation());
+        Entity entity1 = testableRepository.create(new EntityImplementation());
+        Entity entity2 = testableRepository.create(new EntityImplementation());
         // Then
-        assertThat(createdEntityImplementation1.getId(), equalTo(1L));
-        assertThat(createdEntityImplementation2.getId(), equalTo(2L));
+        assertThat(entity1.getId(), equalTo(1L));
+        assertThat(entity2.getId(), equalTo(2L));
     }
 
     @Test
-    public void shouldGetEntityById() {
+    public void shouldGetEntityById() throws UnregisteredEntityIdException {
         // Given
-        EntityImplementation entityImplementation = new EntityImplementation();
-        testableRepository.create(entityImplementation);
+        Entity entity = new EntityImplementation();
+        testableRepository.create(entity);
         // When
-        Optional<EntityImplementation> optionalOfFindedEntity = testableRepository.getById(entityImplementation.getId());
+        Entity findedEntity = testableRepository.getById(entity.getId());
         // Then
-        assertThat(optionalOfFindedEntity.get(), equalTo(entityImplementation));
+        assertThat(findedEntity, equalTo(entity));
     }
 
     @Test
@@ -55,12 +53,11 @@ public class RepositoryTest {
         assertThat(testableRepository.getAll().contains(entityImplementation2), equalTo(true));
     }
 
-    @Test
-    public void shouldReturnEmptyOptionalWhenEntityIsNotFound() {
+    @Test(expected = UnregisteredEntityIdException.class)
+    public void shouldRaiseExceptionWhenEntityIsNotFound() throws UnregisteredEntityIdException {
         // When
-        Optional<EntityImplementation> OptionalOfTestableEntity = testableRepository.getById(1L);
-        // Then
-        assertThat(false, is(OptionalOfTestableEntity.isPresent()));
+        testableRepository.getById(1L);
+        // Then: Should raise exception
     }
 
     @Test
@@ -68,5 +65,11 @@ public class RepositoryTest {
         // When
         testableRepository.delete(1L);
         // Then: Should not raise any exception
+    }
+
+    public class RepositoryImplementation extends Repository<Entity> {
+    }
+
+    public class EntityImplementation extends Entity {
     }
 }
