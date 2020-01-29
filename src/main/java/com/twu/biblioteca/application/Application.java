@@ -1,5 +1,7 @@
 package com.twu.biblioteca.application;
 
+import com.twu.biblioteca.application.book.BookController;
+import com.twu.biblioteca.application.movie.MovieController;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
 import com.twu.biblioteca.domain.loanable.LoanableService;
@@ -20,7 +22,9 @@ public class Application {
 
     private ApplicationIO applicationIO;
 
-    private ApplicationController applicationController;
+    private BookController bookController;
+
+    private MovieController movieController;
 
     public Application() {
 
@@ -56,17 +60,18 @@ public class Application {
 
         applicationIO = new ApplicationIO();
 
-        applicationController = new ApplicationController(bookService, movieService, applicationIO);
+        bookController = new BookController(bookService, applicationIO);
+
+        movieController = new MovieController(movieService, applicationIO);
 
         menu = new Menu("Main Menu");
-        menu.setOption("1", "Show books", applicationController::books);
-        menu.setOption("2", "Show available books", applicationController::availableBooks);
-        menu.setOption("3", "Checkout a book", applicationController::bookCheckout);
-        menu.setOption("4", "Return a book", applicationController::bookReturn);
-        menu.setOption("5", "Show available movies", applicationController::availableMovies);
-        menu.setOption("6", "Checkout a movie", applicationController::movieCheckout);
+        menu.setOption("1", "Show books", bookController::books);
+        menu.setOption("2", "Show available books", bookController::availableBooks);
+        menu.setOption("3", "Checkout a book", bookController::bookCheckout);
+        menu.setOption("4", "Return a book", bookController::bookReturn);
+        menu.setOption("5", "Show available movies", movieController::availableMovies);
+        menu.setOption("6", "Checkout a movie", movieController::movieCheckout);
         menu.setOption("Q", "Quit application", this::kill);
-
     }
 
     public Application(ApplicationIO applicationIO) {
