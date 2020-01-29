@@ -1,6 +1,9 @@
 package com.twu.biblioteca.domain;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class Repository<T extends Entity> {
 
@@ -16,14 +19,15 @@ public abstract class Repository<T extends Entity> {
         return new LinkedHashSet<>(instances.values());
     }
 
-    public Optional<T> getById(Long id) {
-        T instance = instances.get(id);
-        return Optional.ofNullable(instance);
+    public T getById(Long id) throws UnregisteredEntityIdException {
+        if(!instances.containsKey(id))
+            throw new UnregisteredEntityIdException();
+        return instances.get(id);
     }
 
     public T create(T instance) {
         instance.setId(++counter);
-        instances.put(instance.getId(), instance);
+        instances.put(counter, instance);
         return instance;
     }
 

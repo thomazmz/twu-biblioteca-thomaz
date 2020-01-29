@@ -7,7 +7,7 @@ public class ApplicationIO {
 
     public static final String LINE_BREAK = "\n";
 
-    public  static final String INVALID_INTEGER_INPUT_MESSAGE = "You must enter a integer number. Try again: ";
+    public  static final String INVALID_INTEGER_MESSAGE = "You must enter a integer number. Try again: ";
 
     private Scanner scanner;
 
@@ -39,7 +39,7 @@ public class ApplicationIO {
             String input = this.readString();
             return Long.parseLong(input);
         } catch (Exception e) {
-            this.print(INVALID_INTEGER_INPUT_MESSAGE);
+            this.print(INVALID_INTEGER_MESSAGE);
             return this.readLong();
         }
     }

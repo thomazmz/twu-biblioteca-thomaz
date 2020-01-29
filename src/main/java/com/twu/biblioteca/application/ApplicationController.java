@@ -1,112 +1,91 @@
 package com.twu.biblioteca.application;
 
-import com.twu.biblioteca.domain.book.Book;
-import com.twu.biblioteca.domain.book.BookRepository;
-import com.twu.biblioteca.domain.movie.Movie;
-import com.twu.biblioteca.domain.movie.MovieRepository;
+import com.twu.biblioteca.domain.UnavailableResourceException;
+import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.loanable.Loanable;
+import com.twu.biblioteca.domain.loanable.LoanableService;
 
-import java.util.Optional;
+import java.util.Set;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 
 public class ApplicationController {
 
-    private BookRepository bookRepository;
+    private LoanableService bookService;
 
-    private MovieRepository movieRepository;
+    private LoanableService movieService;
 
     private ApplicationIO applicationIO;
 
-    public ApplicationController(BookRepository bookRepository, MovieRepository movieRepository, ApplicationIO applicationIO) {
-        this.bookRepository = bookRepository;
-        this.movieRepository = movieRepository;
+    public ApplicationController(LoanableService bookService,
+                                 LoanableService movieService,
+                                 ApplicationIO applicationIO) {
+        this.bookService = bookService;
+        this.movieService = movieService;
         this.applicationIO = applicationIO;
+    }
+
+    private void listLoanables(Set<Loanable> loanables) {
+        Set<Loanable> books = bookService.getAll();
+        if(loanables.isEmpty())
+            applicationIO.print("There are no items to list." + LINE_BREAK);
+        books.forEach(book -> applicationIO.print(book + LINE_BREAK));
     }
 
     public void books() {
         applicationIO.print(LINE_BREAK + "BOOKS ( id | title | author| year )" + LINE_BREAK);
-        bookRepository.getAll()
-                .forEach(book -> applicationIO.print(book + LINE_BREAK));
+        Set<Loanable> books = bookService.getAll();
+        this.listLoanables(books);
     }
 
     public void availableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE BOOKS ( id | title | author| year )" + LINE_BREAK);
-        bookRepository.getAvailables()
-                .forEach(book -> applicationIO.print(book + LINE_BREAK));
-    }
-
-    public void unavailableBooks() {
-        applicationIO.print(LINE_BREAK + "UNAVAILABLE BOOKS ( id | title | author| year )" + LINE_BREAK);
-        bookRepository.getUnavailables()
-                .forEach(book -> applicationIO.print(book + LINE_BREAK));
+        Set<Loanable> availableBooks = bookService.getAvailables();
+        this.listLoanables(availableBooks);
     }
 
     public void bookCheckout() {
         applicationIO.print(LINE_BREAK + "Type the ID of the book you would like to check out: ");
-        Optional<Long> userInputOptional = applicationIO.readLong();
-        if(!userInputOptional.isPresent()) {
-            applicationIO.print("Invalid book ID." + LINE_BREAK);
-        } else {
-            Optional<Book> bookOptional = bookRepository.getById(userInputOptional.get());
-            if(!bookOptional.isPresent()) {
-                applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
-            } else {
-                Book book = bookOptional.get();
-                if(!book.isAvailable()) {
-                    applicationIO.print("Sorry, that book is not available." + LINE_BREAK);
-                } else {
-                    book.checkOut();
-                    applicationIO.print("Thank you! Enjoy the book" + LINE_BREAK);
-                }
-            }
+        Long bookId = applicationIO.readLong();
+        try {
+            bookService.checkOut(bookId);
+            applicationIO.print("Thank you! Enjoy the book" + LINE_BREAK);
+        } catch (UnregisteredEntityIdException e) {
+            applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
+        } catch (UnavailableResourceException e) {
+            applicationIO.print("Sorry, that book is not available." + LINE_BREAK);
         }
     }
 
     public void bookReturn() {
         applicationIO.print(LINE_BREAK + "Type the ID of the book you would like to return: ");
-        Optional<Long> userInputOptional = applicationIO.readLong();
-        if(!userInputOptional.isPresent()) {
-            applicationIO.print("Invalid book ID." + LINE_BREAK);
-        } else {
-            Optional<Book> bookOptional = bookRepository.getById(userInputOptional.get());
-            if(!bookOptional.isPresent()) {
-                applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
-            } else {
-                Book book = bookOptional.get();
-                if(book.isAvailable()) {
-                    applicationIO.print("That is not a valid book to return." + LINE_BREAK);
-                } else {
-                    book.checkIn();
-                    applicationIO.print("Thank you for returning the book." + LINE_BREAK);
-                }
-            }
+        Long bookId = applicationIO.readLong();
+        try {
+            bookService.checkIn(bookId);
+            applicationIO.print("Thank you for returning the book." + LINE_BREAK);
+        } catch (UnregisteredEntityIdException e) {
+            applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
+        } catch (UnavailableResourceException e) {
+            applicationIO.print("That is not a valid book to return." + LINE_BREAK);
         }
     }
 
     public void availableMovies() {
         applicationIO.print(LINE_BREAK + "AVAILABLE MOVIES ( id | title | director | year | rating )" + LINE_BREAK);
-        movieRepository.getAvailables()
-                .forEach(book -> applicationIO.print(book + LINE_BREAK));
+        Set<Loanable> availableBooks = movieService.getAvailables();
+        this.listLoanables(availableBooks);
     }
 
     public void movieCheckout() {
-        applicationIO.print(LINE_BREAK + "Type the ID of the movie you would like to check out: ");
-        Optional<Long> userInputOptional = applicationIO.readLong();
-        if(!userInputOptional.isPresent()) {
-            applicationIO.print("Invalid movie ID." + LINE_BREAK);
-        } else {
-            Optional<Movie> movieOptional = movieRepository.getById(userInputOptional.get());
-            if(!movieOptional.isPresent()) {
-                applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
-            } else {
-                Movie movie = movieOptional.get();
-                if(!movie.isAvailable()) {
-                    applicationIO.print("Sorry, that movie is not available." + LINE_BREAK);
-                } else {
-                    movie.checkOut();
-                    applicationIO.print("Thank you! Enjoy the movie" + LINE_BREAK);
-                }
-            }
+        applicationIO.print(LINE_BREAK + "Type the ID of the movie you would like to checkout: ");
+        Long movieId = applicationIO.readLong();
+        try {
+            movieService.checkOut(movieId);
+            applicationIO.print("Thank you! Enjoy the movie" + LINE_BREAK);
+        } catch (UnregisteredEntityIdException e) {
+            applicationIO.print("Could not found a movie with the given ID." + LINE_BREAK);
+        } catch (UnavailableResourceException e) {
+            applicationIO.print("Sorry, that movie is not available." + LINE_BREAK);
         }
     }
 }

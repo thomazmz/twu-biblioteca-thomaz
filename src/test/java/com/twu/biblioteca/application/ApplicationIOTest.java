@@ -2,16 +2,16 @@ package com.twu.biblioteca.application;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ApplicationIOTest {
 
@@ -20,12 +20,12 @@ public class ApplicationIOTest {
     private ApplicationIO applicationIO;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         applicationIO = new ApplicationIO();
     }
 
     @Test
-    public void should_print_message() {
+    public void shouldPrintMessage() {
         // Given
         outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
@@ -38,7 +38,7 @@ public class ApplicationIOTest {
     }
 
     @Test
-    public void should_read_string() {
+    public void shouldReadString() {
         // Given
         Scanner scanner = new Scanner(new ByteArrayInputStream("INPUT".getBytes()));
         applicationIO.setScanner(scanner);
@@ -49,7 +49,7 @@ public class ApplicationIOTest {
     }
 
     @Test
-    public void should_read_long() {
+    public void shouldReadLongIntegers() {
         // Given
         Scanner scanner = new Scanner(new ByteArrayInputStream("1".getBytes()));
         applicationIO.setScanner(scanner);
@@ -57,5 +57,17 @@ public class ApplicationIOTest {
         Long input = applicationIO.readLong();
         // Then
         assertThat(input, equalTo(1L));
+    }
+
+    @Test
+    public void shouldOnlyReadLongIntegers() {
+        // Given
+        ApplicationIO applicationIOSpy = Mockito.spy(applicationIO);
+        doReturn("A").doReturn("1").when(applicationIOSpy).readString();
+        // When
+        Long input = applicationIOSpy.readLong();
+        // Then
+        assertThat(input, equalTo(1L));
+        verify(applicationIOSpy, atLeastOnce()).print(ApplicationIO.INVALID_INTEGER_MESSAGE);
     }
 }

@@ -1,6 +1,6 @@
 package com.twu.biblioteca.domain.movie;
 
-import com.twu.biblioteca.domain.lonnable.LoanableRepository;
+import com.twu.biblioteca.domain.loanable.LoanableRepository;
 
 import java.util.List;
 

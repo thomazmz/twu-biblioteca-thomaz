@@ -1,4 +1,4 @@
-package com.twu.biblioteca.domain.lonnable;
+package com.twu.biblioteca.domain.loanable;
 
 import com.twu.biblioteca.domain.Repository;
 
