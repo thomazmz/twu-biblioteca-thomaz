@@ -13,6 +13,6 @@ public final class LoanableUtils {
     public static void listLoanables(Set<Loanable> loanables, ApplicationIO applicationIO) {
         if(loanables.isEmpty())
             applicationIO.print("There are no items to list." + LINE_BREAK);
-        loanables.forEach(book -> applicationIO.print(loanables + LINE_BREAK));
+        loanables.forEach(loanable -> applicationIO.print(loanable + LINE_BREAK));
     }
 }

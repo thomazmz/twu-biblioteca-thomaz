@@ -24,7 +24,6 @@ public class Book extends Loanable {
         return String.format("%-5s", getId()) +
                String.format("%-40s", title) +
                String.format("%-25s", author) +
-               String.format("%-5s", year) +
                String.format("%-5s", year);
     }
 }
