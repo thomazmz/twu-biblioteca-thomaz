@@ -1,4 +1,4 @@
-package com.twu.biblioteca.domain.loanable;
+package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.Repository;
 
@@ -6,23 +6,23 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class LoanableRepository<T extends Loanable> extends Repository<T> {
+public abstract class BorrowableItemRepository<T extends BorrowableItem> extends Repository<T> {
 
-    public LoanableRepository() {
+    public BorrowableItemRepository() {
         super();
     }
 
     public Set<T> getAvailables() {
         return getAll()
                 .stream()
-                .filter(Loanable::isAvailable)
+                .filter(BorrowableItem::isAvailable)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public Set<T> getUnavailables() {
         return getAll()
                 .stream()
-                .filter(loanableItem -> !loanableItem.isAvailable())
+                .filter(item -> !item.isAvailable())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

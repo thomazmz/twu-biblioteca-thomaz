@@ -4,7 +4,7 @@ import com.twu.biblioteca.application.book.BookController;
 import com.twu.biblioteca.application.movie.MovieController;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
-import com.twu.biblioteca.domain.loanable.LoanableService;
+import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
 import com.twu.biblioteca.domain.movie.MovieRepository;
 
@@ -54,9 +54,9 @@ public class Application {
                 new Movie("Ghostbusters", "Ivan Reitman", Year.of(1984), 10)
         )));
 
-        LoanableService bookService = new LoanableService(bookRepository);
+        BorrowableItemService bookService = new BorrowableItemService(bookRepository);
 
-        LoanableService movieService = new LoanableService(movieRepository);
+        BorrowableItemService movieService = new BorrowableItemService(movieRepository);
 
         applicationIO = new ApplicationIO();
 

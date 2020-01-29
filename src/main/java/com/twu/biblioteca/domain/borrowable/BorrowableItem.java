@@ -1,12 +1,12 @@
-package com.twu.biblioteca.domain.loanable;
+package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.Entity;
 
-public abstract class Loanable extends Entity {
+public abstract class BorrowableItem extends Entity {
 
     private Boolean available;
 
-    public Loanable() {
+    public BorrowableItem() {
         this.available = true;
     }
 

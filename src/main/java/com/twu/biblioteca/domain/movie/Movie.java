@@ -1,10 +1,10 @@
 package com.twu.biblioteca.domain.movie;
 
-import com.twu.biblioteca.domain.loanable.Loanable;
+import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 
 import java.time.Year;
 
-public class Movie extends Loanable {
+public class Movie extends BorrowableItem {
 
     private String title;
 

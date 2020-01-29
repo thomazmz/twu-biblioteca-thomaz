@@ -1,4 +1,4 @@
-package com.twu.biblioteca.domain.loanable;
+package com.twu.biblioteca.domain.borrowable;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,22 +13,22 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoanableRepositoryTest {
+public class BorrowableItemRepositoryTest {
 
-    public LoanableRepository loanableRepository;
-
-    @Mock
-    public Loanable entity1;
+    public BorrowableItemRepository borrowableItemRepository;
 
     @Mock
-    public Loanable entity2;
+    public BorrowableItem entity1;
+
+    @Mock
+    public BorrowableItem entity2;
 
     @Before
     public void setUp() {
         // Given
-        loanableRepository = new LoanableRepositoryImplementation();
-        loanableRepository.create(entity1);
-        loanableRepository.create(entity2);
+        borrowableItemRepository = new BorrowableItemRepositoryImplementation();
+        borrowableItemRepository.create(entity1);
+        borrowableItemRepository.create(entity2);
     }
 
     @Test
@@ -37,11 +37,11 @@ public class LoanableRepositoryTest {
         when(entity1.isAvailable()).thenReturn(true);
         when(entity2.isAvailable()).thenReturn(false);
         // When
-        Set<Loanable> entities = loanableRepository.getAvailables();
+        Set<BorrowableItem> entities = borrowableItemRepository.getAvailables();
         // Then
         assertThat(entities.size(), equalTo(1));
     }
 
-    public class LoanableRepositoryImplementation extends LoanableRepository<Loanable> {
+    public class BorrowableItemRepositoryImplementation extends BorrowableItemRepository<BorrowableItem> {
     }
 }

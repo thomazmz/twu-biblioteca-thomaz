@@ -1,10 +1,10 @@
 package com.twu.biblioteca.domain.book;
 
-import com.twu.biblioteca.domain.loanable.Loanable;
+import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 
 import java.time.Year;
 
-public class Book extends Loanable {
+public class Book extends BorrowableItem {
 
     private String title;
 
@@ -24,7 +24,6 @@ public class Book extends Loanable {
         return String.format("%-5s", getId()) +
                String.format("%-40s", title) +
                String.format("%-25s", author) +
-               String.format("%-5s", year) +
                String.format("%-5s", year);
     }
 }
