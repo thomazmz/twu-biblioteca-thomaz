@@ -40,7 +40,7 @@ public class Application {
                 new Book("Practical Unit Testing", "Tomek Kaczanowski", Year.of(2019)),
                 new Book("Building Microservices", "Sam Newman", Year.of(2014)),
                 new Book("Designing Event Driven Systems", "Ben Stopford", Year.of(2018)),
-                new Book("Building Evolutionary Architectures1", "Rebecca Parsons", Year.of(2017))
+                new Book("Building Evolutionary Architectures", "Rebecca Parsons", Year.of(2017))
         )));
 
         MovieRepository movieRepository = new MovieRepository(new LinkedList<>(Arrays.asList(
