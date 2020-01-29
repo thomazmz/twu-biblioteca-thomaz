@@ -21,14 +21,14 @@ public class MenuTest {
     Menu menu;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         // Given
         menu = new Menu(HEADER);
         menu.setOption(SELECTOR, SENTENCE, COMMAND);
     }
 
     @Test
-    public void should_contain_header_selectors_and_sentences_in_menu_string() {
+    public void shouldContainHeaderSelectorsAndSentencesInMenuString() {
         // When
         String menuString = menu.toString();
         // Then
@@ -38,7 +38,7 @@ public class MenuTest {
     }
 
     @Test
-    public void should_return_optional_of_command_when_exists() {
+    public void shouldReturnOptionalOfCommandWhenExists() {
         // When
         Optional<Menu.Option> optional = menu.select(SELECTOR);
         // Then
@@ -46,7 +46,7 @@ public class MenuTest {
     }
 
     @Test
-    public void should_return_empty_optional_of_command_when_it_does_not_exists() {
+    public void shouldReturnEmptyOptionalOfCommandWhenItDoesNotExists() {
         // When
         Optional<Menu.Option> optional = menu.select("InvalidSelector");
         // Then
@@ -54,7 +54,7 @@ public class MenuTest {
     }
 
     @Test
-    public void should_print_warning_when_invalid_option_is_selected_on_menu() {
+    public void shouldPrintWarningWhenInvalidOptionIsSelectedOnMenu() {
         // When
         ApplicationIO applicationIO = mock(ApplicationIO.class);
         when(applicationIO.readString()).thenReturn( "2", "1" );

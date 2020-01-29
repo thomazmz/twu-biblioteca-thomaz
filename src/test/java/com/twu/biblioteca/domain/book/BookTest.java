@@ -17,13 +17,13 @@ public class BookTest {
     public Book book;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         // Given
         book = new Book(TITLE, AUTHOR, YEAR);
     }
 
     @Test
-    public void should_return_title_author_and_year() {
+    public void shouldReturnTitleAuthorAndYear() {
         // When
         String bookString = book.toString();
         // Then

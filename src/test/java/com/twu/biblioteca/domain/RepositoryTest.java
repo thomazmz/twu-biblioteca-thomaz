@@ -14,13 +14,13 @@ public class RepositoryTest {
     RepositoryImplementation testableRepository;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         // Given
         this.testableRepository = new RepositoryImplementation();
     }
 
     @Test
-    public void should_define_incremental_id() {
+    public void shouldDefineIncrementalId() {
         // When
         EntityImplementation createdEntityImplementation1 = testableRepository.create(new EntityImplementation());
         EntityImplementation createdEntityImplementation2 = testableRepository.create(new EntityImplementation());
@@ -30,7 +30,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void should_get_entity_by_id() {
+    public void shouldGetEntityById() {
         // Given
         EntityImplementation entityImplementation = new EntityImplementation();
         testableRepository.create(entityImplementation);
@@ -41,7 +41,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void should_delete_entity_by_id() {
+    public void shouldDeleteEntityById() {
         // Given
         EntityImplementation entityImplementation1 = new EntityImplementation();
         EntityImplementation entityImplementation2 = new EntityImplementation();
@@ -56,7 +56,7 @@ public class RepositoryTest {
     }
 
     @Test
-    public void should_return_empty_optional_when_entity_is_not_found() {
+    public void shouldReturnEmptyOptionalWhenEntityIsNotFound() {
         // When
         Optional<EntityImplementation> OptionalOfTestableEntity = testableRepository.getById(1L);
         // Then
@@ -64,10 +64,9 @@ public class RepositoryTest {
     }
 
     @Test
-    public void should_not_raise_exception_when_deleting_by_nonexistent_id() {
+    public void shouldNotRaiseExceptionWhenDeletingByNonexistentId() {
         // When
         testableRepository.delete(1L);
-        // Then
-        // Should not raise any exception
+        // Then: Should not raise any exception
     }
 }

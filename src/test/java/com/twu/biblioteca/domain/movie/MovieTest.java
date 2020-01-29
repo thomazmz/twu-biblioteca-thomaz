@@ -18,13 +18,13 @@ public class MovieTest {
     public Movie movie;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         // Given
         movie = new Movie(TITLE, DIRECTOR, YEAR, RATING);
     }
 
     @Test
-    public void should_return_title_author_and_year() {
+    public void shouldReturnTitleAuthorAndYear() {
         // When
         String bookString = movie.toString();
         // Then

@@ -1,6 +1,8 @@
-package com.twu.biblioteca.domain;
+package com.twu.biblioteca.domain.lonnable;
 
-public abstract class Loanable extends Entity{
+import com.twu.biblioteca.domain.Entity;
+
+public abstract class Loanable extends Entity {
 
     private Boolean available;
 

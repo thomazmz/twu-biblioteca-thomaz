@@ -1,6 +1,6 @@
 package com.twu.biblioteca.domain.movie;
 
-import com.twu.biblioteca.domain.Loanable;
+import com.twu.biblioteca.domain.lonnable.Loanable;
 
 import java.time.Year;
 
@@ -20,10 +20,6 @@ public class Movie extends Loanable {
         this.director = director;
         this.year = year;
         this.rating = rating;
-    }
-
-    public String getYear() {
-        return year.toString();
     }
 
     @Override

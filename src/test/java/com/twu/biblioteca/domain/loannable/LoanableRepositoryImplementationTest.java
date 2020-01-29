@@ -1,5 +1,7 @@
-package com.twu.biblioteca.domain;
+package com.twu.biblioteca.domain.loannable;
 
+import com.twu.biblioteca.domain.lonnable.Loanable;
+import com.twu.biblioteca.domain.lonnable.LoanableRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ public class LoanableRepositoryImplementationTest {
     public Loanable entity2;
 
     @Before
-    public void set_up() {
+    public void setUp() {
         // Given
         loanableRepository = new LoanableRepositoryImplementation();
         entity1 = new LoanableImplementation();
@@ -27,7 +29,7 @@ public class LoanableRepositoryImplementationTest {
     }
 
     @Test
-    public void should_return_only_available_entities() {
+    public void shouldReturnOnlyAvailableEntities() {
         // When
         entity1.checkOut();
         Set<Loanable> entities = loanableRepository.getAvailables();

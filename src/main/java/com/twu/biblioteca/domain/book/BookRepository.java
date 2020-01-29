@@ -1,6 +1,6 @@
 package com.twu.biblioteca.domain.book;
 
-import com.twu.biblioteca.domain.LoanableRepository;
+import com.twu.biblioteca.domain.lonnable.LoanableRepository;
 
 import java.util.List;
 

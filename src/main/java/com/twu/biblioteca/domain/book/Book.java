@@ -1,6 +1,6 @@
 package com.twu.biblioteca.domain.book;
 
-import com.twu.biblioteca.domain.Loanable;
+import com.twu.biblioteca.domain.lonnable.Loanable;
 
 import java.time.Year;
 

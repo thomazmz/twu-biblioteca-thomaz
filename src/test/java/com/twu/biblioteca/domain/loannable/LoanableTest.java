@@ -1,5 +1,6 @@
-package com.twu.biblioteca.domain;
+package com.twu.biblioteca.domain.loannable;
 
+import com.twu.biblioteca.domain.lonnable.Loanable;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -10,7 +11,7 @@ public class LoanableTest {
     Loanable loanable = new LoanableImplementation();
 
     @Test
-    public void should_check_out_and_check_in_book() {
+    public void shouldCheckOutAndCheckInBook() {
         loanable.checkOut();
         assertThat(loanable.isAvailable(), is(false));
         loanable.checkIn();
