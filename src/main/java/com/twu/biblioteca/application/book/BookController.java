@@ -3,61 +3,77 @@ package com.twu.biblioteca.application.book;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
-import com.twu.biblioteca.domain.loanable.Loanable;
-import com.twu.biblioteca.domain.loanable.LoanableService;
+import com.twu.biblioteca.domain.borrowable.BorrowableItem;
+import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 
 import java.util.Set;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
-import static com.twu.biblioteca.application.loanable.LoanableUtils.listLoanables;
+import static com.twu.biblioteca.application.BorrowableItem.BorrowableItemUtils.listBorrowableItems;
 
 public class BookController {
 
-    private LoanableService bookService;
+    public static final String  HEADER = "BOOKS ( id | title | author| year )";
+
+    public static final String CHECKOUT_INSTRUCTION = "Type the ID of the book you would like to check out: ";
+
+    public static final String CHECKOUT_SUCCESS_MESSAGE = "Thank you! Enjoy the book";
+
+    public static final String CHECKOUT_FAIL_MESSAGE = "Sorry, that book is not available.";
+
+    public static final String CHECKIN_INSTRUCTION = "Type the ID of the book you would like to return: ";
+
+    public static final String CHECKIN_SUCCESS_MESSAGE = "Thank you for returning the book.";
+
+    public static final String CHECKIN_FAIL_MESSAGE = "That is not a valid book to return.";
+
+    public static final String NOT_FOUND_MESSAGE = "Could not found a book with the given ID.";
+
+    private BorrowableItemService bookService;
 
     private ApplicationIO applicationIO;
 
-    public BookController(LoanableService bookService,
+    public BookController(BorrowableItemService bookService,
                           ApplicationIO applicationIO) {
         this.bookService = bookService;
         this.applicationIO = applicationIO;
     }
 
     public void books() {
-        applicationIO.print(LINE_BREAK + "BOOKS ( id | title | author| year )" + LINE_BREAK);
-        Set<Loanable> books = bookService.getAll();
-        listLoanables(books, applicationIO);
+        applicationIO.print(LINE_BREAK + HEADER + LINE_BREAK);
+        Set<BorrowableItem> books = bookService.getAll();
+        listBorrowableItems(books, applicationIO);
     }
 
     public void availableBooks() {
-        applicationIO.print(LINE_BREAK + "AVAILABLE BOOKS ( id | title | author| year )" + LINE_BREAK);
-        Set<Loanable> availableBooks = bookService.getAvailables();
-        listLoanables(availableBooks, applicationIO);
+        applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
+        Set<BorrowableItem> availableBooks = bookService.getAvailables();
+        listBorrowableItems(availableBooks, applicationIO);
     }
 
     public void bookCheckout() {
-        applicationIO.print(LINE_BREAK + "Type the ID of the book you would like to check out: ");
+        applicationIO.print(LINE_BREAK + CHECKOUT_INSTRUCTION);
         Long bookId = applicationIO.readLong();
         try {
             bookService.checkOut(bookId);
-            applicationIO.print("Thank you! Enjoy the book" + LINE_BREAK);
+            applicationIO.print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
-            applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
+            applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
         } catch (UnavailableResourceException e) {
-            applicationIO.print("Sorry, that book is not available." + LINE_BREAK);
+            applicationIO.print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
         }
     }
 
     public void bookReturn() {
-        applicationIO.print(LINE_BREAK + "Type the ID of the book you would like to return: ");
+        applicationIO.print(LINE_BREAK + CHECKIN_INSTRUCTION);
         Long bookId = applicationIO.readLong();
         try {
             bookService.checkIn(bookId);
-            applicationIO.print("Thank you for returning the book." + LINE_BREAK);
+            applicationIO.print(CHECKIN_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
-            applicationIO.print("Could not found a book with the given ID." + LINE_BREAK);
+            applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
         } catch (UnavailableResourceException e) {
-            applicationIO.print("That is not a valid book to return." + LINE_BREAK);
+            applicationIO.print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
         }
     }
 }

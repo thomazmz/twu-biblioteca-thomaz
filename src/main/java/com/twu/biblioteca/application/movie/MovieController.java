@@ -3,42 +3,52 @@ package com.twu.biblioteca.application.movie;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
-import com.twu.biblioteca.domain.loanable.Loanable;
-import com.twu.biblioteca.domain.loanable.LoanableService;
+import com.twu.biblioteca.domain.borrowable.BorrowableItem;
+import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 
 import java.util.Set;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
-import static com.twu.biblioteca.application.loanable.LoanableUtils.listLoanables;
+import static com.twu.biblioteca.application.BorrowableItem.BorrowableItemUtils.listBorrowableItems;
 
 public class MovieController {
 
-    private LoanableService movieService;
+    public static final String  HEADER = "BOOKS ( id | title | author| year )";
+
+    public static final String CHECKOUT_INSTRUCTION = "Type the ID of the movie you would like to checkout: ";
+
+    public static final String CHECKOUT_SUCCESS_MESSAGE = "Thank you! Enjoy the movie!";
+
+    public static final String CHECKOUT_FAIL_MESSAGE = "Sorry, that movie is not available.";
+
+    public static final String NOT_FOUND_MESSAGE = "Could not found a movie with the given ID.";
+
+    private BorrowableItemService movieService;
 
     private ApplicationIO applicationIO;
 
-    public MovieController(LoanableService bookService,
-                          ApplicationIO applicationIO) {
+    public MovieController(BorrowableItemService bookService,
+                           ApplicationIO applicationIO) {
         this.movieService = bookService;
         this.applicationIO = applicationIO;
     }
 
     public void availableMovies() {
         applicationIO.print(LINE_BREAK + "AVAILABLE MOVIES ( id | title | director | year | rating )" + LINE_BREAK);
-        Set<Loanable> availableBooks = movieService.getAvailables();
-        listLoanables(availableBooks, applicationIO);
+        Set<BorrowableItem> availableBooks = movieService.getAvailables();
+        listBorrowableItems(availableBooks, applicationIO);
     }
 
     public void movieCheckout() {
-        applicationIO.print(LINE_BREAK + "Type the ID of the movie you would like to checkout: ");
+        applicationIO.print(LINE_BREAK + CHECKOUT_INSTRUCTION);
         Long movieId = applicationIO.readLong();
         try {
             movieService.checkOut(movieId);
-            applicationIO.print("Thank you! Enjoy the movie" + LINE_BREAK);
+            applicationIO.print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
-            applicationIO.print("Could not found a movie with the given ID." + LINE_BREAK);
+            applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
         } catch (UnavailableResourceException e) {
-            applicationIO.print("Sorry, that movie is not available." + LINE_BREAK);
+            applicationIO.print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
         }
     }
 }
