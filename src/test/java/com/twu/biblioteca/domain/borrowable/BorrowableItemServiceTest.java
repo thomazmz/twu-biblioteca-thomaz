@@ -28,7 +28,7 @@ public class BorrowableItemServiceTest {
         borrowableItemService = new BorrowableItemServiceImplementation(borrowableItemRepository);
     }
 
-    @Test
+    @Test(expected = UnavailableResourceException.class)
     public void shouldThrowUnavailableResourceExceptionWhenCheckingOutIsNotPossible()
             throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
@@ -36,7 +36,7 @@ public class BorrowableItemServiceTest {
         when(borrowableItem.isAvailable()).thenReturn(false);
         when(borrowableItemRepository.getById(anyLong())).thenReturn(borrowableItem);
         // When
-        borrowableItemService.checkIn(anyLong());
+        borrowableItemService.checkOut(anyLong());
     }
 
     @Test(expected = UnavailableResourceException.class)
