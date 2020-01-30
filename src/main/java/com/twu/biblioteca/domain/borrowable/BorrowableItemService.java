@@ -14,10 +14,6 @@ public class BorrowableItemService {
         this.borrowableItemRepository = borrowableItemRepository;
     }
 
-    public BorrowableItem getById(Long id) throws UnregisteredEntityIdException {
-        return this.borrowableItemRepository.getById(id);
-    }
-
     public Set<BorrowableItem> getAll() {
         return this.borrowableItemRepository.getAll();
     }
