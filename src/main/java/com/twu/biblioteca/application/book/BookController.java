@@ -38,12 +38,6 @@ public class BookController {
         this.applicationIO = applicationIO;
     }
 
-    public void books() {
-        applicationIO.print(LINE_BREAK + HEADER + LINE_BREAK);
-        Set<BorrowableItem> books = bookService.getAll();
-        applicationIO.print(books);
-    }
-
     public void availableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
         Set<BorrowableItem> availableBooks = bookService.getAvailables();

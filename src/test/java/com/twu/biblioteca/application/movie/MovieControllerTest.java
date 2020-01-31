@@ -1,10 +1,9 @@
 package com.twu.biblioteca.application.movie;
 
 import com.twu.biblioteca.application.ApplicationIO;
-import com.twu.biblioteca.application.book.BookController;
-import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
+import com.twu.biblioteca.domain.movie.Movie;
 import com.twu.biblioteca.domain.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +15,8 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
-import static com.twu.biblioteca.application.book.BookController.*;
-import static com.twu.biblioteca.application.book.BookController.CHECKIN_FAIL_MESSAGE;
-import static com.twu.biblioteca.domain.book.BookTest.*;
-import static org.junit.Assert.*;
+import static com.twu.biblioteca.application.movie.MovieController.*;
+import static com.twu.biblioteca.domain.movie.MovieTest.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
 
@@ -32,97 +29,63 @@ public class MovieControllerTest {
     @Mock
     public ApplicationIO applicationIO;
 
-    public Book book;
+    public Movie movie;
 
-    public BorrowableItemService bookService;
+    public BorrowableItemService movieService;
 
-    public BookController bookController;
+    public MovieController movieController;
 
-    public BorrowableItemRepository<Book> bookRepository;
+    public BorrowableItemRepository<Movie> movieRepository;
 
     @Before
     public void setUp() {
         // Given
-        book = new Book(TITLE, AUTHOR, YEAR);
-        bookRepository = new BorrowableItemRepository<>();
-        bookService = new BorrowableItemService(bookRepository, userService);
-        bookController = new BookController(bookService, applicationIO);
+        movie = new Movie(TITLE, DIRECTOR, YEAR, RATING);
+        movieRepository = new BorrowableItemRepository<>();
+        movieService = new BorrowableItemService(movieRepository, userService);
+        movieController = new MovieController(movieService, applicationIO);
     }
 
     @Test
-    public void shouldPrintAvailableBooks() {
+    public void shouldPrintAvailableMovies() {
         // Given
-        bookRepository.create(book);
+        movieRepository.create(movie);
         // When
-        bookController.availableBooks();
+        movieController.availableMovies();
         // Then
-        verify(applicationIO, atLeastOnce()).print(new LinkedHashSet(Arrays.asList(book)));
+        verify(applicationIO, atLeastOnce()).print(new LinkedHashSet(Arrays.asList(movie)));
     }
 
     @Test
-    public void shouldPrintCheckoutSuccessMessageWhenBookIsCheckedOut() {
+    public void shouldPrintCheckoutSuccessMessageWhenMovieIsCheckedOut() {
         // Given
-        bookRepository.create(book);
+        movieRepository.create(movie);
         when(applicationIO.readLong()).thenReturn(1L);
         // When
-        bookController.bookCheckout();
+        movieController.movieCheckout();
         // Then
         verify(applicationIO, atLeastOnce()).print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
     }
 
     @Test
-    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckout() {
+    public void shouldPrintNotFoundMessageWhenMovieDoesNotExistForCheckout() {
         // Given
         when(applicationIO.readLong()).thenReturn(1L);
         // When
-        bookController.bookCheckout();
+        movieController.movieCheckout();
         // Then
         verify(applicationIO, atLeastOnce()).print(NOT_FOUND_MESSAGE + LINE_BREAK);
     }
 
     @Test
-    public void shouldPrintCheckoutFailMessageWhenBookIsNotAvailableToCheckout() {
+    public void shouldPrintCheckoutFailMessageWhenMovieIsNotAvailableToCheckout() {
         // Given
-        bookRepository.create(book);
-        book.checkOut();
+        movieRepository.create(movie);
+        movie.checkOut();
         when(applicationIO.readLong()).thenReturn(1L);
         // When
-        bookController.bookCheckout();
+        movieController.movieCheckout();
         // Then
         verify(applicationIO, atLeastOnce()).print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
     }
-
-    @Test
-    public void shouldPrintCheckinSuccessMessageWhenBookIsCheckedIn() {
-        // Given
-        bookRepository.create(book);
-        book.checkOut();
-        when(applicationIO.readLong()).thenReturn(1L);
-        // When
-        bookController.bookReturn();
-        // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKIN_SUCCESS_MESSAGE + LINE_BREAK);
-    }
-
-    @Test
-    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckin() {
-        // Given
-        when(applicationIO.readLong()).thenReturn(1L);
-        // When
-        bookController.bookReturn();
-        // Then
-        verify(applicationIO, atLeastOnce()).print(NOT_FOUND_MESSAGE + LINE_BREAK);
-    }
-
-    @Test
-    public void shouldPrintCheckinFailMessageWhenBookIsNotAvailableToCheckin() {
-        // Given
-        bookRepository.create(book);
-        when(applicationIO.readLong()).thenReturn(1L);
-        // When
-        bookController.bookReturn();
-        // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
-    }
-
 }
