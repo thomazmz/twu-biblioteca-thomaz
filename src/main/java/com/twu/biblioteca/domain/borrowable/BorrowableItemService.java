@@ -18,10 +18,6 @@ public class BorrowableItemService {
         this.userService = userService;
     }
 
-    public Set<BorrowableItem> getAll() {
-        return this.borrowableItemRepository.getAll();
-    }
-
     public Set<BorrowableItem> getAvailables() {
         return this.borrowableItemRepository.getAvailables();
     }
