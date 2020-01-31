@@ -28,12 +28,17 @@ public class ApplicationTest {
     }
 
     @Test
-    public void shouldPrintMenuWhenApplicationStarts() {
+    public void shouldPrintMainMenuWhenApplicationStarts() {
         // When
         when(applicationIO.readString()).thenReturn("Q");
         application.start();
         // Then
         verify(applicationIO, atLeastOnce()).print(any(Menu.class));
+    }
+
+    @Test
+    public void shouldPrintUserMenuWhenApplicationStarts() {
+
     }
 
     @Test

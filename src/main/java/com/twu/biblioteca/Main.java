@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import com.twu.biblioteca.application.Application;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.user.User;
 
 import java.time.Year;
 import java.util.Arrays;
@@ -10,6 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
+
+    private static final List<User> users = new LinkedList<>(Arrays.asList(
+            new User("000-0000", "admin", "admin@biblioteca.com", "12345", "+55(51)99999-9999")
+    ));
 
     private static final List<Movie> movies = new LinkedList<>(Arrays.asList(
         new Movie("The Seven Samurai", "Akira Kurosawa",Year.of(1955), 10),
@@ -38,7 +43,7 @@ public class Main {
     ));
 
     public static void main(String[] args) {
-        Application application = new Application(books, movies);
+        Application application = new Application(users, books, movies);
         application.start();
     }
 }

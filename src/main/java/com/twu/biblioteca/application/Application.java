@@ -6,6 +6,9 @@ import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.user.User;
+import com.twu.biblioteca.domain.user.UserRepository;
+import com.twu.biblioteca.domain.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,50 +19,72 @@ public class Application {
 
     private static Boolean isAlive = true;
 
-    private Menu menu;
+    private Menu mainMenu;
+    private Menu userMenu;
+
+    private BookController bookController;
+    private MovieController movieController;
+
+    private UserService userService;
 
     private ApplicationIO applicationIO;
 
-    private BookController bookController;
+    public Application(List<User> users, List<Book> books, List<Movie> movies) {
 
-    private MovieController movieController;
+        UserRepository userRepository = new UserRepository(users);
+        BorrowableItemRepository<Book> bookRepository = new BorrowableItemRepository<>(books);
+        BorrowableItemRepository<Movie> movieRepository = new BorrowableItemRepository<>(movies);
 
-    public Application(List<Book> books, List<Movie> movies) {
-
-        BorrowableItemRepository bookRepository = new BorrowableItemRepository(books);
-        BorrowableItemRepository movieRepository = new BorrowableItemRepository(movies);
-
-        BorrowableItemService bookService = new BorrowableItemService(bookRepository);
-        BorrowableItemService movieService = new BorrowableItemService(movieRepository);
+        BorrowableItemService bookService = new BorrowableItemService(bookRepository, userService);
+        BorrowableItemService movieService = new BorrowableItemService(movieRepository, userService);
 
         applicationIO = new ApplicationIO();
         bookController = new BookController(bookService, applicationIO);
         movieController = new MovieController(movieService, applicationIO);
+        userService = new UserService(userRepository);
 
-        menu = new Menu("Main Menu");
-        menu.setOption("1", "Show books", bookController::books);
-        menu.setOption("2", "Show available books", bookController::availableBooks);
-        menu.setOption("3", "Checkout a book", bookController::bookCheckout);
-        menu.setOption("4", "Return a book", bookController::bookReturn);
-        menu.setOption("5", "Show available movies", movieController::availableMovies);
-        menu.setOption("6", "Checkout a movie", movieController::movieCheckout);
-        menu.setOption("Q", "Quit application", this::kill);
+        mainMenu = new Menu("Main Menu");
+        mainMenu.setOption("1", "List of Books", bookController::availableBooks);
+        mainMenu.setOption("2", "List of Movies", movieController::availableMovies);
+        /// mainMenu.setOption("3", "Login with library number", userController::login);
+        mainMenu.setOption("Q", "Quit application", this::kill);
+
+        userMenu = new Menu("User Menu");
+        userMenu.setOption("1", "List of Books", bookController::availableBooks);
+        userMenu.setOption("2", "Checkout a book", bookController::bookCheckout);
+        userMenu.setOption("3", "Return a book", bookController::bookReturn);
+        userMenu.setOption("1", "List of Movies", movieController::availableMovies);
+        userMenu.setOption("2", "Checkout a movie", movieController::movieCheckout);
+        userMenu.setOption("Q", "Quit application", this::kill);
     }
 
     public Application(ApplicationIO applicationIO) {
-        this(new ArrayList<>(), new ArrayList<>());
+        this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         this.applicationIO = applicationIO;
     }
 
     public void start() {
         applicationIO.print(WELCOME_MESSAGE);
         while (isAlive)
-            renderMenu();
+            render();
     }
 
-    private void renderMenu() {
-        applicationIO.print(menu);
-        menu.readInput(applicationIO);
+    private void render() {
+        if(!userService.getCurrentUser().isPresent()) {
+            renderMainMenu();
+        } else {
+            renderUserMenu();
+        }
+    }
+
+    private void renderMainMenu() {
+        applicationIO.print(mainMenu);
+        mainMenu.readInput(applicationIO);
+    }
+
+    private void renderUserMenu() {
+        applicationIO.print(userMenu);
+        userMenu.readInput(applicationIO);
     }
 
     public void kill() {

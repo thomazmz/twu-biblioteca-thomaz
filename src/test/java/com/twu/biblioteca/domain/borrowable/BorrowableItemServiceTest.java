@@ -2,6 +2,8 @@ package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.user.User;
+import com.twu.biblioteca.domain.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,7 +80,7 @@ public class BorrowableItemServiceTest {
 
     public class BorrowableItemServiceImplementation extends BorrowableItemService {
         public BorrowableItemServiceImplementation(BorrowableItemRepository borrowableItemRepository) {
-            super(borrowableItemRepository);
+            super(borrowableItemRepository, mock(UserService.class));
         }
     }
 }

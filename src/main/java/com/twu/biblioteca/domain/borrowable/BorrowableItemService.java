@@ -2,6 +2,7 @@ package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.user.UserService;
 
 import java.util.Set;
 
@@ -10,8 +11,11 @@ public class BorrowableItemService {
 
     private BorrowableItemRepository<BorrowableItem> borrowableItemRepository;
 
-    public BorrowableItemService(BorrowableItemRepository borrowableItemRepository) {
+    private UserService userService;
+
+    public BorrowableItemService(BorrowableItemRepository borrowableItemRepository, UserService userService) {
         this.borrowableItemRepository = borrowableItemRepository;
+        this.userService = userService;
     }
 
     public Set<BorrowableItem> getAll() {
