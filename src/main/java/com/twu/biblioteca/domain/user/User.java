@@ -21,6 +21,7 @@ public class User extends Entity {
     private String phoneNumber;
 
     public User(String libraryNumber, String name, String email, String password, String phoneNumber) {
+        super();
         this.libraryNumber = libraryNumber;
         this.name = name;
         this.email = email;

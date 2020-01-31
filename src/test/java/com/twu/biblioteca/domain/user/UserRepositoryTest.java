@@ -25,7 +25,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldFindUserByEmail() {
+    public void shouldFindUserByLibraryNumber() {
         // When
         Optional<User> userOptional = userRepository.findByLibraryNumber(LIBRARY_NUMBER);
         Optional<User> emptyUserOptional = userRepository.findByLibraryNumber("");

@@ -54,10 +54,10 @@ public class RepositoryTest {
     }
 
     @Test(expected = UnregisteredEntityIdException.class)
-    public void shouldRaiseExceptionWhenEntityIsNotFound() throws UnregisteredEntityIdException {
+    public void shouldThrowExceptionWhenEntityIsNotFound() throws UnregisteredEntityIdException {
         // When
         testableRepository.getById(1L);
-        // Then: Should raise exception
+        // Then: Should throw exception
     }
 
     @Test

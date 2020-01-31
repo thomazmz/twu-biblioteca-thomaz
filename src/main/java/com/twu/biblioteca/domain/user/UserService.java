@@ -16,4 +16,11 @@ public class UserService {
     public Optional<User> getCurrentUser() {
         return Optional.ofNullable(currentUser);
     }
+
+    public User loggin(String libraryNumber, String password) throws WrongCredentialsException {
+        User user = userRepository.findByLibraryNumber(libraryNumber).orElseThrow(WrongCredentialsException::new);
+        if(!user.checkPassword(password))
+            throw new WrongCredentialsException();
+        return currentUser = user;
+    }
 }

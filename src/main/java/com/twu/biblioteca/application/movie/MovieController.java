@@ -12,7 +12,7 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 
 public class MovieController {
 
-    public static final String  HEADER = "BOOKS ( id | title | author| year )";
+    public static final String  HEADER = "MOVIES ( id | title | author| year )";
 
     public static final String CHECKOUT_INSTRUCTION = "Type the ID of the movie you would like to checkout: ";
 
@@ -33,7 +33,7 @@ public class MovieController {
     }
 
     public void availableMovies() {
-        applicationIO.print(LINE_BREAK + "AVAILABLE MOVIES ( id | title | director | year | rating )" + LINE_BREAK);
+        applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
         Set<BorrowableItem> availableBooks = movieService.getAvailables();
         applicationIO.print(availableBooks);
     }
