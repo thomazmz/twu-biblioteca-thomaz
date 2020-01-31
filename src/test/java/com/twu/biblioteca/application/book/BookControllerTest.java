@@ -51,7 +51,7 @@ public class BookControllerTest {
         // When
         bookController.availableBooks();
         // Then
-        verify(applicationIO, atLeastOnce()).print(new LinkedHashSet(Arrays.asList(book)));
+        verify(applicationIO, times(1)).print(new LinkedHashSet(Arrays.asList(book)));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class BookControllerTest {
         // When
         bookController.bookCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class BookControllerTest {
         // When
         bookController.bookCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(NOT_FOUND_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(NOT_FOUND_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class BookControllerTest {
         // When
         bookController.bookCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class BookControllerTest {
         // When
         bookController.bookReturn();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKIN_SUCCESS_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKIN_SUCCESS_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class BookControllerTest {
         // When
         bookController.bookReturn();
         // Then
-        verify(applicationIO, atLeastOnce()).print(NOT_FOUND_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(NOT_FOUND_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -117,6 +117,6 @@ public class BookControllerTest {
         // When
         bookController.bookReturn();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
     }
 }

@@ -53,7 +53,7 @@ public class MovieControllerTest {
         // When
         movieController.availableMovies();
         // Then
-        verify(applicationIO, atLeastOnce()).print(new LinkedHashSet(Arrays.asList(movie)));
+        verify(applicationIO, times(1)).print(new LinkedHashSet(Arrays.asList(movie)));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class MovieControllerTest {
         // When
         movieController.movieCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class MovieControllerTest {
         // When
         movieController.movieCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(NOT_FOUND_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(NOT_FOUND_MESSAGE + LINE_BREAK);
     }
 
     @Test
@@ -86,6 +86,6 @@ public class MovieControllerTest {
         // When
         movieController.movieCheckout();
         // Then
-        verify(applicationIO, atLeastOnce()).print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
+        verify(applicationIO, times(1)).print(CHECKOUT_FAIL_MESSAGE + LINE_BREAK);
     }
 }
