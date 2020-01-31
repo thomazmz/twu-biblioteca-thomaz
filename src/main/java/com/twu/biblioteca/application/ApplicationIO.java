@@ -8,7 +8,9 @@ public class ApplicationIO {
 
     public static final String LINE_BREAK = "\n";
 
-    public  static final String INVALID_INTEGER_MESSAGE = "You must enter a integer number. Try again: ";
+    public static final String INVALID_INTEGER_MESSAGE = "You must enter a integer number. Try again: ";
+
+    public static final String EMPTY_COLLECTION_MESSAGE =  "There are no items to show.";
 
     private Scanner scanner;
 
@@ -33,7 +35,7 @@ public class ApplicationIO {
 
     public void print(Collection collection) {
         if(collection.isEmpty())
-            print("There are no items to show." + LINE_BREAK);
+            print(EMPTY_COLLECTION_MESSAGE + LINE_BREAK);
         collection.forEach(item -> print(item + LINE_BREAK));
     }
 

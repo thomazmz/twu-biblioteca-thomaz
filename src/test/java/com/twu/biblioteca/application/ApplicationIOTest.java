@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
+import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -55,6 +56,19 @@ public class ApplicationIOTest {
         String input = outputStream.toString();
         //Then
         assertThat(input, is(firstElement + "\n" + secondElement + "\n"));
+    }
+
+    @Test
+    public void shouldPrintMessageWhenCollectionIsEmpty() {
+        // Given
+        PrintStream printStream = new PrintStream(outputStream);
+        applicationIO.setOutputStream(printStream);
+        Collection<String> collection = new ArrayList<>();
+        // When
+        applicationIO.print(collection);
+        String input = outputStream.toString();
+        //Then
+        assertThat(input, is(ApplicationIO.EMPTY_COLLECTION_MESSAGE + LINE_BREAK));
     }
 
     @Test
