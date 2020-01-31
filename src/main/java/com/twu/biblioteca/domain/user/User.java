@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class User extends Entity {
 
+    private String libraryNumber;
+
     private String name;
 
     private String email;
@@ -18,18 +20,16 @@ public class User extends Entity {
 
     private String phoneNumber;
 
-    private Set<BorrowableItem> borrowedBooks;
-
-    public User(String name, String email, String password, String phoneNumber) {
+    public User(String libraryNumber, String name, String email, String password, String phoneNumber) {
+        this.libraryNumber = libraryNumber;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.borrowedBooks = new HashSet<>();
     }
 
-    public String getEmail() {
-        return email;
+    public String getLibraryNumber() {
+        return libraryNumber;
     }
 
     public Boolean checkPassword(String password) {

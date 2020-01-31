@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 
 import static com.twu.biblioteca.domain.user.UserTest.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -19,15 +20,17 @@ public class UserRepositoryTest {
     @Before
     public void setUp() {
         // Given
-        user = new User(NAME, EMAIL, PASSWORD, PHONE_NUMBER);
+        user = new User(LIBRARY_NUMBER, NAME, EMAIL, PASSWORD, PHONE_NUMBER);
         userRepository = new UserRepository(new LinkedList<>(Arrays.asList(user)));
     }
 
     @Test
     public void shouldFindUserByEmail() {
         // When
-        User findedUser = userRepository.findByEmail(EMAIL);
+        Optional<User> userOptional = userRepository.findByLibraryNumber(LIBRARY_NUMBER);
+        Optional<User> emptyUserOptional = userRepository.findByLibraryNumber("");
         // Then
-        assertThat(findedUser, is(user));
+        assertThat(userOptional.get(), is(user));
+        assertThat(emptyUserOptional.isPresent(), is(false));
     }
 }

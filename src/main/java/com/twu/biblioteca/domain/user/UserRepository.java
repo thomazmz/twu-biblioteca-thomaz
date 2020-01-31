@@ -3,6 +3,7 @@ package com.twu.biblioteca.domain.user;
 import com.twu.biblioteca.domain.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserRepository extends Repository<User> {
 
@@ -11,10 +12,9 @@ public class UserRepository extends Repository<User> {
         users.forEach(user -> create(user));
     }
 
-    public User findByEmail(String email) {
+    public Optional<User> findByLibraryNumber(String libraryNumber) {
         return super.getAll()
-                .stream().filter(user -> user.getEmail().equals(email))
-                .findFirst()
-                .get();
+                .stream().filter(user -> user.getLibraryNumber().equals(libraryNumber))
+                .findFirst();
     }
 }

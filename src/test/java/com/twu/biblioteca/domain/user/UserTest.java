@@ -9,6 +9,8 @@ import static org.junit.Assert.*;
 
 public class UserTest {
 
+    public static final String LIBRARY_NUMBER = "000-0000";
+
     public static final String NAME = "userName";
 
     public static final String EMAIL = "userEmail";
@@ -22,7 +24,7 @@ public class UserTest {
     @Before
     public void setUp() {
         // Given
-        this.user = new User(NAME, EMAIL, PASSWORD, PHONE_NUMBER);
+        this.user = new User(LIBRARY_NUMBER, NAME, EMAIL, PASSWORD, PHONE_NUMBER);
     }
 
     @Test
