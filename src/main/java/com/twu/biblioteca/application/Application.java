@@ -32,8 +32,8 @@ public class Application {
         BorrowableItemRepository<Book> bookRepository = new BorrowableItemRepository<>(books);
         BorrowableItemRepository<Movie> movieRepository = new BorrowableItemRepository<>(movies);
 
-        BorrowableItemService bookService = new BorrowableItemService(bookRepository, userService);
-        BorrowableItemService movieService = new BorrowableItemService(movieRepository, userService);
+        BorrowableItemService bookService = new BorrowableItemService(bookRepository);
+        BorrowableItemService movieService = new BorrowableItemService(movieRepository);
 
         applicationIO = new ApplicationIO();
         userService = new UserService(userRepository);

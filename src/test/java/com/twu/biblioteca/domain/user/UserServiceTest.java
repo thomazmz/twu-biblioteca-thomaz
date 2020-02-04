@@ -1,6 +1,5 @@
 package com.twu.biblioteca.domain.user;
 
-import com.twu.biblioteca.application.Menu;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Optional;
 
 import static com.twu.biblioteca.domain.user.UserTest.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,7 +44,7 @@ public class UserServiceTest {
         // Given
         when(userRepository.findByLibraryNumber(LIBRARY_NUMBER)).thenReturn(Optional.of(user));
         // When
-        User loggedUser = userService.loggin(LIBRARY_NUMBER, PASSWORD);
+        User loggedUser = userService.login(LIBRARY_NUMBER, PASSWORD);
         // Then
         assertThat(loggedUser, is(user));
         assertThat(userService.getCurrentUser(), is(Optional.of(user)));
@@ -57,7 +55,7 @@ public class UserServiceTest {
         // Given
         when(userRepository.findByLibraryNumber(anyString())).thenReturn(Optional.empty());
         // When
-        userService.loggin("!" + LIBRARY_NUMBER, PASSWORD);
+        userService.login("!" + LIBRARY_NUMBER, PASSWORD);
         // Then : Should throw WrongCredentialsException
     }
 
@@ -66,7 +64,7 @@ public class UserServiceTest {
         // Given
         when(userRepository.findByLibraryNumber(LIBRARY_NUMBER)).thenReturn(Optional.of(user));
         // When
-        userService.loggin(LIBRARY_NUMBER, "!" + PASSWORD);
+        userService.login(LIBRARY_NUMBER, "!" + PASSWORD);
         // Then : Should throw WrongCredentialsException
     }
 }

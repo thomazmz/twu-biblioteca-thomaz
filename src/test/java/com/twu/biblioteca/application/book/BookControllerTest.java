@@ -40,7 +40,7 @@ public class BookControllerTest {
         // Given
         book = new Book(TITLE, AUTHOR, YEAR);
         bookRepository = new BorrowableItemRepository<>();
-        bookService = new BorrowableItemService(bookRepository, userService);
+        bookService = new BorrowableItemService(bookRepository);
         bookController = new BookController(bookService, applicationIO);
     }
 

@@ -80,7 +80,7 @@ public class BorrowableItemServiceTest {
 
     public class BorrowableItemServiceImplementation extends BorrowableItemService {
         public BorrowableItemServiceImplementation(BorrowableItemRepository borrowableItemRepository) {
-            super(borrowableItemRepository, mock(UserService.class));
+            super(borrowableItemRepository);
         }
     }
 }

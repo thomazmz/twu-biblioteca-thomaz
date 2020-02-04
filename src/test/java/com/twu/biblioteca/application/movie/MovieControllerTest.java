@@ -18,7 +18,6 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 import static com.twu.biblioteca.application.movie.MovieController.*;
 import static com.twu.biblioteca.domain.movie.MovieTest.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.atLeastOnce;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieControllerTest {
@@ -42,7 +41,7 @@ public class MovieControllerTest {
         // Given
         movie = new Movie(TITLE, DIRECTOR, YEAR, RATING);
         movieRepository = new BorrowableItemRepository<>();
-        movieService = new BorrowableItemService(movieRepository, userService);
+        movieService = new BorrowableItemService(movieRepository);
         movieController = new MovieController(movieService, applicationIO);
     }
 
