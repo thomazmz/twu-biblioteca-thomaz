@@ -6,6 +6,7 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 import javafx.beans.binding.Bindings;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class User extends Entity {
@@ -20,8 +21,11 @@ public class User extends Entity {
 
     private String phoneNumber;
 
+    private Set<Book> books;
+
     public User(String libraryNumber, String name, String email, String password, String phoneNumber) {
         super();
+        this.books = new HashSet<>();
         this.libraryNumber = libraryNumber;
         this.name = name;
         this.email = email;
@@ -35,6 +39,14 @@ public class User extends Entity {
 
     public Boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public void checkOutABook(Book book) {
+        this.books.add(book);
+    }
+
+    public Set<Book> getBooksCheckedOut() {
+        return this.books;
     }
 
     @Override
