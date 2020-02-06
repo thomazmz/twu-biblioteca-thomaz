@@ -4,7 +4,6 @@ import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
-import com.twu.biblioteca.domain.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +20,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieControllerTest {
-
-    @Mock
-    public UserService userService;
 
     @Mock
     public ApplicationIO applicationIO;

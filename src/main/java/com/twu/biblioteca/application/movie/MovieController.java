@@ -40,9 +40,8 @@ public class MovieController {
 
     public void movieCheckout() {
         applicationIO.print(LINE_BREAK + CHECKOUT_INSTRUCTION);
-        Long movieId = applicationIO.readLong();
         try {
-            movieService.checkOut(movieId);
+            movieService.checkOut(applicationIO.readLong());
             applicationIO.print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
             applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);

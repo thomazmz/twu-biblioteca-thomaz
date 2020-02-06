@@ -46,9 +46,8 @@ public class BookController {
 
     public void bookCheckout() {
         applicationIO.print(LINE_BREAK + CHECKOUT_INSTRUCTION);
-        Long bookId = applicationIO.readLong();
         try {
-            bookService.checkOut(bookId);
+            bookService.checkOut(applicationIO.readLong());
             applicationIO.print(CHECKOUT_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
             applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
@@ -59,9 +58,8 @@ public class BookController {
 
     public void bookReturn() {
         applicationIO.print(LINE_BREAK + CHECKIN_INSTRUCTION);
-        Long bookId = applicationIO.readLong();
         try {
-            bookService.checkIn(bookId);
+            bookService.checkIn(applicationIO.readLong());
             applicationIO.print(CHECKIN_SUCCESS_MESSAGE + LINE_BREAK);
         } catch (UnregisteredEntityIdException e) {
             applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
