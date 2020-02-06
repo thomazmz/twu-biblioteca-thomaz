@@ -18,21 +18,23 @@ public class BorrowableItemService {
         return this.borrowableItemRepository.getAvailables();
     }
 
-    public void checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
+    public BorrowableItem checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         BorrowableItem borrowableItem = this.borrowableItemRepository.getById(id);
 
         if(!borrowableItem.isAvailable())
             throw new UnavailableResourceException();
 
         borrowableItem.checkOut();
+        return borrowableItem;
     }
 
-    public void checkIn(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
+    public BorrowableItem checkIn(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         BorrowableItem borrowableItem = this.borrowableItemRepository.getById(id);
 
         if(borrowableItem.isAvailable())
             throw new UnavailableResourceException();
 
         borrowableItem.checkIn();
+        return borrowableItem;
     }
 }
