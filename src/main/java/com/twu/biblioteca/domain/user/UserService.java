@@ -17,7 +17,7 @@ public class UserService {
         return Optional.ofNullable(currentUser);
     }
 
-    public User loggin(String libraryNumber, String password) throws WrongCredentialsException {
+    public User login(String libraryNumber, String password) throws WrongCredentialsException {
         User user = userRepository.findByLibraryNumber(libraryNumber).orElseThrow(WrongCredentialsException::new);
         if(!user.checkPassword(password))
             throw new WrongCredentialsException();
