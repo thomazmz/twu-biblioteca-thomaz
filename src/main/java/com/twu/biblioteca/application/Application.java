@@ -4,10 +4,12 @@ import com.twu.biblioteca.application.book.BookController;
 import com.twu.biblioteca.application.movie.MovieController;
 import com.twu.biblioteca.application.user.UserController;
 import com.twu.biblioteca.domain.book.Book;
+import com.twu.biblioteca.domain.book.BookRepository;
 import com.twu.biblioteca.domain.book.BookService;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieRepository;
 import com.twu.biblioteca.domain.movie.MovieService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserRepository;
@@ -32,8 +34,8 @@ public class Application {
     public Application(List<User> users, List<Book> books, List<Movie> movies) {
 
         UserRepository userRepository = new UserRepository(users);
-        BorrowableItemRepository<Movie> movieRepository = new BorrowableItemRepository<>(movies);
-        BorrowableItemRepository<Book> bookRepository = new BorrowableItemRepository<>(books);
+        BorrowableItemRepository<Movie> movieRepository = new MovieRepository(movies);
+        BorrowableItemRepository<Book> bookRepository = new BookRepository(books);
 
         userService = new UserService(userRepository);
         BookService bookService = new BookService(bookRepository, userService);
@@ -57,6 +59,7 @@ public class Application {
         userMenu.setOption("3", "Return a book", bookController::bookReturn);
         userMenu.setOption("4", "List of Movies", movieController::availableMovies);
         userMenu.setOption("5", "Checkout a movie", movieController::movieCheckout);
+        userMenu.setOption("6", "List my borrowed books", bookController::getUserBooks);
         userMenu.setOption("Q", "Quit application", this::kill);
     }
 
