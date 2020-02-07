@@ -7,7 +7,7 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
 
-public class MovieService extends BorrowableItemService {
+public class MovieService extends BorrowableItemService<Movie> {
 
     private UserService userService;
 
@@ -18,7 +18,6 @@ public class MovieService extends BorrowableItemService {
 
     public Movie checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         User currentUser = userService.getCurrentUser().orElseThrow(UnregisteredEntityIdException::new);
-        Movie movie = (Movie) super.checkOut(id, currentUser);
-        return movie;
+        return super.checkOut(id, currentUser);
     }
 }

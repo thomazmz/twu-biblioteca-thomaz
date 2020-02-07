@@ -7,7 +7,9 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
 
-public class BookService extends BorrowableItemService {
+import java.util.Set;
+
+public class BookService extends BorrowableItemService<Book> {
 
     private UserService userService;
 
@@ -18,7 +20,11 @@ public class BookService extends BorrowableItemService {
 
     public Book checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         User currentUser = userService.getCurrentUser().orElseThrow(UnregisteredEntityIdException::new);
-        Book book = (Book) super.checkOut(id, currentUser);
-        return book;
+        return super.checkOut(id, currentUser);
+    }
+
+    public Set<Book> getCurrentUserBorrowedBooks() throws UnregisteredEntityIdException {
+        User currentUser = userService.getCurrentUser().orElseThrow(UnregisteredEntityIdException::new);
+        return super.getItemsByBorrowerId(currentUser.getId());
     }
 }

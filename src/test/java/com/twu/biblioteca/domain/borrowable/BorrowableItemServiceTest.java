@@ -2,7 +2,7 @@ package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
-import com.twu.biblioteca.domain.book.BookService;
+import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,35 +24,37 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class BorrowableItemServiceTest {
 
-    @Mock(answer = Answers.CALLS_REAL_METHODS)
-    BorrowableItem borrowableItem;
+    BorrowableItemServiceImplementation borrowableItemService;
 
     @Mock
     BorrowableItemRepository borrowableItemRepository;
 
-    BorrowableItemService borrowableItemService;
+    @Mock(answer = Answers.CALLS_REAL_METHODS)
+    BorrowableItem borrowableItem;
+
+    @Mock
+    User user;
 
     @Before
     public void setUp() {
-        borrowableItemService = new BorrowableItemService(borrowableItemRepository);
-
+        // Given
+        borrowableItemService = new BorrowableItemServiceImplementation();
     }
 
     @Test(expected = UnavailableResourceException.class)
     public void shouldThrowUnavailableResourceExceptionWhenCheckingOutIsNotPossible()
             throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        borrowableItem.checkOut(mock(User.class));
+        borrowableItem.checkOut(user);
         when(borrowableItemRepository.getById(1L)).thenReturn(borrowableItem);
         // When
-        borrowableItemService.checkOut(1L, mock(User.class));
+        borrowableItemService.checkOut(1L, user);
     }
 
     @Test(expected = UnavailableResourceException.class)
     public void shouldThrowUnavailableResourceExceptionWhenCheckingInIsNotPossible()
             throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        BorrowableItem borrowableItem = mock(BorrowableItem.class);
         when(borrowableItem.isAvailable()).thenReturn(true);
         when(borrowableItemRepository.getById(anyLong())).thenReturn(borrowableItem);
         // When
@@ -56,17 +62,19 @@ public class BorrowableItemServiceTest {
     }
 
     @Test
-    public void shouldCheckout() throws UnregisteredEntityIdException, UnavailableResourceException {
+    public void shouldCheckout()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
          when(borrowableItemRepository.getById(1L)).thenReturn(borrowableItem);
         // When
-        borrowableItemService.checkOut(1L, mock(User.class));
+        borrowableItemService.checkOut(1L, user);
         // Then
         assertThat(borrowableItem.isAvailable(), is(false));
     }
 
     @Test
-    public void shouldCheckIn() throws UnregisteredEntityIdException, UnavailableResourceException {
+    public void shouldCheckIn()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
         when(borrowableItemRepository.getById(1L)).thenReturn(borrowableItem);
         borrowableItem.checkOut(mock(User.class));
@@ -74,5 +82,36 @@ public class BorrowableItemServiceTest {
         borrowableItemService.checkIn(1L);
         // Then
         assertThat(borrowableItem.isAvailable(), is(true));
+    }
+
+    @Test
+    public void shouldReturnOnlyBooksBorrowedByUser() {
+        // Given
+        Book book = mock(Book.class);
+        when(borrowableItemRepository.getItemsByBorrowerId(1L)).thenReturn(new LinkedHashSet(Arrays.asList(book)));
+        // When
+        Set<Book> borrowedBooks = borrowableItemService.getItemsByBorrowerId(1L);
+        // Then
+        assertThat(borrowedBooks.size(), is(1));
+        assertThat(borrowedBooks.contains(book), is(true));
+    }
+
+    @Test
+    public void shouldReturnAvailableBooks() {
+        // Given
+        Book book = mock(Book.class);
+        when(borrowableItemRepository.getAvailables()).thenReturn(new LinkedHashSet(Arrays.asList(book)));
+        // When
+        Set<Book> borrowedBooks = borrowableItemService.getAvailables();
+        // Then
+        assertThat(borrowedBooks.size(), is(1));
+        assertThat(borrowedBooks.contains(book), is(true));
+
+    }
+
+    public class BorrowableItemServiceImplementation extends BorrowableItemService {
+        private BorrowableItemServiceImplementation() {
+            super(borrowableItemRepository);
+        }
     }
 }
