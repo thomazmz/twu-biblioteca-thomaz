@@ -4,13 +4,16 @@ import com.twu.biblioteca.application.book.BookController;
 import com.twu.biblioteca.application.movie.MovieController;
 import com.twu.biblioteca.application.user.UserController;
 import com.twu.biblioteca.domain.book.Book;
+import com.twu.biblioteca.domain.book.BookService;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserRepository;
 import com.twu.biblioteca.domain.user.UserService;
 
+import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +32,14 @@ public class Application {
     public Application(List<User> users, List<Book> books, List<Movie> movies) {
 
         UserRepository userRepository = new UserRepository(users);
-        BorrowableItemRepository<Book> bookRepository = new BorrowableItemRepository<>(books);
         BorrowableItemRepository<Movie> movieRepository = new BorrowableItemRepository<>(movies);
+        BorrowableItemRepository<Book> bookRepository = new BorrowableItemRepository<>(books);
 
-        BorrowableItemService bookService = new BorrowableItemService(bookRepository);
-        BorrowableItemService movieService = new BorrowableItemService(movieRepository);
+        userService = new UserService(userRepository);
+        BookService bookService = new BookService(bookRepository, userService);
+        MovieService movieService = new MovieService(movieRepository, userService);
 
         applicationIO = new ApplicationIO();
-        userService = new UserService(userRepository);
 
         UserController userController = new UserController(userService, applicationIO);
         BookController bookController = new BookController(bookService, applicationIO);

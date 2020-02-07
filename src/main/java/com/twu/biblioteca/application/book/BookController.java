@@ -3,6 +3,7 @@ package com.twu.biblioteca.application.book;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.book.BookService;
 import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 
@@ -28,11 +29,11 @@ public class BookController {
 
     public static final String NOT_FOUND_MESSAGE = "Could not found a book with the given ID.";
 
-    private BorrowableItemService bookService;
+    private BookService bookService;
 
     private ApplicationIO applicationIO;
 
-    public BookController(BorrowableItemService bookService,
+    public BookController(BookService bookService,
                           ApplicationIO applicationIO) {
         this.bookService = bookService;
         this.applicationIO = applicationIO;

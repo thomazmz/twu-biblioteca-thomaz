@@ -1,4 +1,4 @@
-package com.twu.biblioteca.domain.book;
+package com.twu.biblioteca.domain.movie;
 
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
@@ -7,18 +7,18 @@ import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
 
-public class BookService extends BorrowableItemService {
+public class MovieService extends BorrowableItemService {
 
     private UserService userService;
 
-    public BookService(BorrowableItemRepository<Book> borrowableItemRepository, UserService userService) {
+    public MovieService(BorrowableItemRepository<Movie> borrowableItemRepository, UserService userService) {
         super(borrowableItemRepository);
         this.userService = userService;
     }
 
-    public Book checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
+    public Movie checkOut(Long id) throws UnregisteredEntityIdException, UnavailableResourceException {
         User currentUser = userService.getCurrentUser().orElseThrow(UnregisteredEntityIdException::new);
-        Book book = (Book) super.checkOut(id, currentUser);
-        return book;
+        Movie movie = (Movie) super.checkOut(id, currentUser);
+        return movie;
     }
 }

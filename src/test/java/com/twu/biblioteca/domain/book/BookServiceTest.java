@@ -49,7 +49,7 @@ public class BookServiceTest {
         when(bookRepository.getById(any(Long.class))).thenReturn(book);
         when(userService.getCurrentUser()).thenReturn(Optional.of(user));
         // When
-        bookServicce.checkOut(book.getId());
+        bookServicce.checkOut(book.getId(), user);
         // Then
         assertThat(book.isAvailable(), is(false));
     }

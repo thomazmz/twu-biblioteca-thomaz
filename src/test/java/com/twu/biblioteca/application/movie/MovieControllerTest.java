@@ -4,6 +4,7 @@ import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +77,7 @@ public class MovieControllerTest {
     public void shouldPrintCheckoutFailMessageWhenMovieIsNotAvailableToCheckout() {
         // Given
         movieRepository.create(movie);
-        movie.checkOut();
+        movie.checkOut(mock(User.class));
         when(applicationIO.readLong()).thenReturn(1L);
         // When
         movieController.movieCheckout();

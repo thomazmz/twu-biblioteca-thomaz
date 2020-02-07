@@ -1,13 +1,20 @@
 package com.twu.biblioteca.application.book;
 
 import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.domain.UnavailableResourceException;
+import com.twu.biblioteca.domain.UnregisteredEntityIdException;
 import com.twu.biblioteca.domain.book.Book;
+import com.twu.biblioteca.domain.book.BookService;
+import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
+import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Incubating;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -21,43 +28,35 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class BookControllerTest {
 
-    @Mock
-    public UserService userService;
+    @InjectMocks
+    public BookController bookController;
 
     @Mock
     public ApplicationIO applicationIO;
 
+    @Mock
+    public BookService bookService;
+
+    @Mock
+    public UserService userService;
+
+    @Mock
     public Book book;
-
-    public BorrowableItemService bookService;
-
-    public BookController bookController;
-
-    public BorrowableItemRepository<Book> bookRepository;
-
-    @Before
-    public void setUp() {
-        // Given
-        book = new Book(TITLE, AUTHOR, YEAR);
-        bookRepository = new BorrowableItemRepository<>();
-        bookService = new BorrowableItemService(bookRepository);
-        bookController = new BookController(bookService, applicationIO);
-    }
 
     @Test
     public void shouldPrintAvailableBooks() {
         // Given
-        bookRepository.create(book);
+        Set<BorrowableItem> items = new LinkedHashSet(Arrays.asList(book));
+        when(bookService.getAvailables()).thenReturn(items);
         // When
         bookController.availableBooks();
         // Then
-        verify(applicationIO, times(1)).print(new LinkedHashSet(Arrays.asList(book)));
+        verify(applicationIO, times(1)).print(items);
     }
 
     @Test
     public void shouldPrintCheckoutSuccessMessageWhenBookIsCheckedOut() {
         // Given
-        bookRepository.create(book);
         when(applicationIO.readLong()).thenReturn(1L);
         // When
         bookController.bookCheckout();
@@ -66,9 +65,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckout() {
+    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckout()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
         when(applicationIO.readLong()).thenReturn(1L);
+        when(bookService.checkOut(1L)).thenThrow(new UnregisteredEntityIdException());
+        when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookCheckout();
         // Then
@@ -76,11 +78,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldPrintCheckoutFailMessageWhenBookIsNotAvailableToCheckout() {
+    public void shouldPrintCheckoutFailMessageWhenBookIsNotAvailableToCheckout()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        bookRepository.create(book);
-        book.checkOut();
         when(applicationIO.readLong()).thenReturn(1L);
+        when(bookService.checkOut(1L)).thenThrow(new UnavailableResourceException());
+        when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookCheckout();
         // Then
@@ -88,11 +91,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldPrintCheckinSuccessMessageWhenBookIsCheckedIn() {
+    public void shouldPrintCheckinSuccessMessageWhenBookIsCheckedIn()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        bookRepository.create(book);
-        book.checkOut();
         when(applicationIO.readLong()).thenReturn(1L);
+        when(bookService.checkIn(1L)).thenReturn(mock(BorrowableItem.class));
+        when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookReturn();
         // Then
@@ -100,9 +104,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckin() {
+    public void shouldPrintNotFoundMessageWhenBookDoesNotExistForCheckin()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
         when(applicationIO.readLong()).thenReturn(1L);
+        when(bookService.checkIn(1L)).thenThrow(new UnregisteredEntityIdException());
+        when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookReturn();
         // Then
@@ -110,10 +117,12 @@ public class BookControllerTest {
     }
 
     @Test
-    public void shouldPrintCheckinFailMessageWhenBookIsNotAvailableToCheckin() {
+    public void shouldPrintCheckinFailMessageWhenBookIsNotAvailableToCheckin()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        bookRepository.create(book);
         when(applicationIO.readLong()).thenReturn(1L);
+        when(bookService.checkIn(1L)).thenThrow(new UnavailableResourceException());
+        when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookReturn();
         // Then

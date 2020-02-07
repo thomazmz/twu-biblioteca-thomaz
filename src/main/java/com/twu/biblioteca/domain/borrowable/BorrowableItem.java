@@ -1,24 +1,32 @@
 package com.twu.biblioteca.domain.borrowable;
 
 import com.twu.biblioteca.domain.Entity;
+import com.twu.biblioteca.domain.user.User;
 
 public abstract class BorrowableItem extends Entity {
 
     private Boolean available;
 
+    private User borrower;
+
     public BorrowableItem() {
         this.available = true;
+        this.borrower = null;
     }
 
     public Boolean isAvailable() {
-        return available;
+        return borrower == null;
+    }
+
+    public void checkOut(User borrower) {
+        this.borrower = borrower;
     }
 
     public void checkOut() {
-        available = false;
+        this.available = false;
     }
 
     public void checkIn() {
-        available = true;
+        this.borrower = null;
     }
 }
