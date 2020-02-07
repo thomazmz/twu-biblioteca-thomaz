@@ -5,15 +5,10 @@ import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
 import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookService;
-import com.twu.biblioteca.domain.borrowable.BorrowableItem;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Incubating;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -22,7 +17,6 @@ import java.util.*;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 import static com.twu.biblioteca.application.book.BookController.*;
-import static com.twu.biblioteca.domain.book.BookTest.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,7 +40,7 @@ public class BookControllerTest {
     @Test
     public void shouldPrintAvailableBooks() {
         // Given
-        Set<BorrowableItem> items = new LinkedHashSet(Arrays.asList(book));
+        Set<Book> items = new LinkedHashSet(Arrays.asList(book));
         when(bookService.getAvailables()).thenReturn(items);
         // When
         bookController.availableBooks();
@@ -95,7 +89,7 @@ public class BookControllerTest {
             throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
         when(applicationIO.readLong()).thenReturn(1L);
-        when(bookService.checkIn(1L)).thenReturn(mock(BorrowableItem.class));
+        when(bookService.checkIn(1L)).thenReturn(mock(Book.class));
         when(userService.getCurrentUser()).thenReturn(Optional.of(mock(User.class)));
         // When
         bookController.bookReturn();
@@ -127,5 +121,28 @@ public class BookControllerTest {
         bookController.bookReturn();
         // Then
         verify(applicationIO, times(1)).print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
+    }
+
+    @Test
+    public void shouldPrintUserNotLoggedInMessageWhenUserIsNotLogedIn() throws UnregisteredEntityIdException {
+        // Given
+        when(bookService.getCurrentUserBorrowedBooks()).thenThrow(new UnregisteredEntityIdException());
+        // When
+        bookController.getCurrentUserBorrowedBooks();
+        // Then
+        verify(applicationIO, times(1)).print(contains(USER_NOT_LOGGED_IN_MESSAGE));
+    }
+
+    @Test
+    public void shouldPrintUserBorrowedBooksWhenUserIsLoggedIn() throws UnregisteredEntityIdException {
+
+        // Given
+        Set<Book> books = new LinkedHashSet(Arrays.asList(book));
+        when(bookService.getCurrentUserBorrowedBooks()).thenReturn(books);
+        when(applicationIO.readLong()).thenReturn(1L);
+        // When
+        bookController.getCurrentUserBorrowedBooks();
+        // Then
+        verify(applicationIO, times(1)).print(books);
     }
 }

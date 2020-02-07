@@ -1,13 +1,17 @@
 package com.twu.biblioteca.application.movie;
 
 import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.domain.UnavailableResourceException;
+import com.twu.biblioteca.domain.UnregisteredEntityIdException;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieService;
 import com.twu.biblioteca.domain.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -22,30 +26,22 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MovieControllerTest {
 
+    @InjectMocks
+    public MovieController movieController;
+
     @Mock
     public ApplicationIO applicationIO;
 
+    @Mock
+    public MovieService movieService;
+
+    @Mock
     public Movie movie;
-
-    public BorrowableItemService movieService;
-
-    public MovieController movieController;
-
-    public BorrowableItemRepository<Movie> movieRepository;
-
-    @Before
-    public void setUp() {
-        // Given
-        movie = new Movie(TITLE, DIRECTOR, YEAR, RATING);
-        movieRepository = new BorrowableItemRepository<>();
-        movieService = new BorrowableItemService(movieRepository);
-        movieController = new MovieController(movieService, applicationIO);
-    }
 
     @Test
     public void shouldPrintAvailableMovies() {
         // Given
-        movieRepository.create(movie);
+        when(movieService.getAvailables()).thenReturn(new LinkedHashSet(Arrays.asList(movie)));
         // When
         movieController.availableMovies();
         // Then
@@ -53,9 +49,10 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldPrintCheckoutSuccessMessageWhenMovieIsCheckedOut() {
+    public void shouldPrintCheckoutSuccessMessageWhenMovieIsCheckedOut()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        movieRepository.create(movie);
+        when(movieService.checkOut(1L)).thenReturn(movie);
         when(applicationIO.readLong()).thenReturn(1L);
         // When
         movieController.movieCheckout();
@@ -64,8 +61,10 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldPrintNotFoundMessageWhenMovieDoesNotExistForCheckout() {
+    public void shouldPrintNotFoundMessageWhenMovieDoesNotExistForCheckout()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
+        when(movieService.checkOut(1L)).thenThrow(new UnregisteredEntityIdException());
         when(applicationIO.readLong()).thenReturn(1L);
         // When
         movieController.movieCheckout();
@@ -74,10 +73,10 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void shouldPrintCheckoutFailMessageWhenMovieIsNotAvailableToCheckout() {
+    public void shouldPrintCheckoutFailMessageWhenMovieIsNotAvailableToCheckout()
+            throws UnregisteredEntityIdException, UnavailableResourceException {
         // Given
-        movieRepository.create(movie);
-        movie.checkOut(mock(User.class));
+        when(movieService.checkOut(1L)).thenThrow(new UnavailableResourceException());
         when(applicationIO.readLong()).thenReturn(1L);
         // When
         movieController.movieCheckout();

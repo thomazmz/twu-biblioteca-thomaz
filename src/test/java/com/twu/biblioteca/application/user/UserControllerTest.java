@@ -7,6 +7,7 @@ import com.twu.biblioteca.domain.user.WrongCredentialsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -22,18 +23,14 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
 
+    @InjectMocks
+    public UserController userController;
+
     @Mock
     private ApplicationIO applicationIO;
 
     @Mock
     private UserService userService;
-
-    public UserController userController;
-
-    @Before
-    public void setUp() {
-        this.userController = new UserController(userService, applicationIO);
-    }
 
     @Test
     public void shouldAskUserForLibraryNumberAndPassword() {
