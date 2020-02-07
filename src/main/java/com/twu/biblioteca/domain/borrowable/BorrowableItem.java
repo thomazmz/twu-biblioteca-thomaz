@@ -3,15 +3,18 @@ package com.twu.biblioteca.domain.borrowable;
 import com.twu.biblioteca.domain.Entity;
 import com.twu.biblioteca.domain.user.User;
 
-public abstract class BorrowableItem extends Entity {
+import java.util.Optional;
 
-    private Boolean available;
+public abstract class BorrowableItem extends Entity {
 
     private User borrower;
 
     public BorrowableItem() {
-        this.available = true;
         this.borrower = null;
+    }
+
+    public Optional<User> getBorrower() {
+        return Optional.ofNullable(borrower);
     }
 
     public Boolean isAvailable() {
@@ -20,10 +23,6 @@ public abstract class BorrowableItem extends Entity {
 
     public void checkOut(User borrower) {
         this.borrower = borrower;
-    }
-
-    public void checkOut() {
-        this.available = false;
     }
 
     public void checkIn() {
