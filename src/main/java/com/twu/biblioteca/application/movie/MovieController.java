@@ -5,6 +5,8 @@ import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
 import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
+import com.twu.biblioteca.domain.movie.Movie;
+import com.twu.biblioteca.domain.movie.MovieService;
 
 import java.util.Set;
 
@@ -22,11 +24,11 @@ public class MovieController {
 
     public static final String NOT_FOUND_MESSAGE = "Could not found a movie with the given ID.";
 
-    private BorrowableItemService movieService;
+    private MovieService movieService;
 
     private ApplicationIO applicationIO;
 
-    public MovieController(BorrowableItemService bookService,
+    public MovieController(MovieService bookService,
                            ApplicationIO applicationIO) {
         this.movieService = bookService;
         this.applicationIO = applicationIO;
@@ -34,7 +36,7 @@ public class MovieController {
 
     public void availableMovies() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
-        Set<BorrowableItem> availableBooks = movieService.getAvailables();
+        Set<Movie> availableBooks = movieService.getAvailables();
         applicationIO.print(availableBooks);
     }
 

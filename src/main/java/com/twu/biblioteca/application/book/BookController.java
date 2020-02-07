@@ -3,9 +3,8 @@ package com.twu.biblioteca.application.book;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookService;
-import com.twu.biblioteca.domain.borrowable.BorrowableItem;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 
 import java.util.Set;
 
@@ -29,6 +28,8 @@ public class BookController {
 
     public static final String NOT_FOUND_MESSAGE = "Could not found a book with the given ID.";
 
+    public static final String USER_NOT_LOGGED_IN_MESSAGE = "You need to be logged in to access this option.";
+
     private BookService bookService;
 
     private ApplicationIO applicationIO;
@@ -41,7 +42,7 @@ public class BookController {
 
     public void availableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
-        Set<BorrowableItem> availableBooks = bookService.getAvailables();
+        Set<Book> availableBooks = bookService.getAvailables();
         applicationIO.print(availableBooks);
     }
 
@@ -66,6 +67,16 @@ public class BookController {
             applicationIO.print(NOT_FOUND_MESSAGE + LINE_BREAK);
         } catch (UnavailableResourceException e) {
             applicationIO.print(CHECKIN_FAIL_MESSAGE + LINE_BREAK);
+        }
+    }
+
+    public void getCurrentUserBorrowedBooks() {
+        try {
+            Set<Book> books = bookService.getCurrentUserBorrowedBooks();
+            applicationIO.print(LINE_BREAK + "MY " + HEADER + LINE_BREAK);
+            applicationIO.print(books);
+        } catch (UnregisteredEntityIdException e) {
+            applicationIO.print(LINE_BREAK + USER_NOT_LOGGED_IN_MESSAGE + LINE_BREAK);
         }
     }
 }
