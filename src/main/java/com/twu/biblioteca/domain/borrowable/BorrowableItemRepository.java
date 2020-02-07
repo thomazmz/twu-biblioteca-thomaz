@@ -25,7 +25,7 @@ public abstract class BorrowableItemRepository<T extends BorrowableItem> extends
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public Set<T> s(Long borrowerId) {
+    public Set<T> getItemsByBorrowerId(Long borrowerId) {
         return super.getAll()
                 .stream()
                 .filter(item -> !item.isAvailable() && item.getBorrower().get().getId().equals(borrowerId))
