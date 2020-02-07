@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BorrowableItemRepository<T extends BorrowableItem> extends Repository<T> {
+public abstract class BorrowableItemRepository<T extends BorrowableItem> extends Repository<T> {
 
     public BorrowableItemRepository(List<T> borrowableItems) {
         super();
@@ -23,5 +23,12 @@ public class BorrowableItemRepository<T extends BorrowableItem> extends Reposito
                 .stream()
                 .filter(BorrowableItem::isAvailable)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    public Set<T> s(Long borrowerId) {
+        return super.getAll()
+                .stream()
+                .filter(item -> !item.isAvailable() && item.getBorrower().get().getId().equals(borrowerId))
+                .collect(Collectors.toSet());
     }
 }

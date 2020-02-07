@@ -7,7 +7,6 @@ import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.book.BookRepository;
 import com.twu.biblioteca.domain.book.BookService;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
 import com.twu.biblioteca.domain.movie.MovieRepository;
 import com.twu.biblioteca.domain.movie.MovieService;
@@ -15,7 +14,6 @@ import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserRepository;
 import com.twu.biblioteca.domain.user.UserService;
 
-import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +57,7 @@ public class Application {
         userMenu.setOption("3", "Return a book", bookController::bookReturn);
         userMenu.setOption("4", "List of Movies", movieController::availableMovies);
         userMenu.setOption("5", "Checkout a movie", movieController::movieCheckout);
-        userMenu.setOption("6", "List my borrowed books", bookController::getUserBooks);
+        userMenu.setOption("6", "List my borrowed books", bookController::getCurrentUserBorrowedBooks);
         userMenu.setOption("Q", "Quit application", this::kill);
     }
 
