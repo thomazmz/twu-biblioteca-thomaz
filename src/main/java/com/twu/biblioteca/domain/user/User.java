@@ -51,8 +51,11 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return String.format("%-5s", name) +
-                String.format("%-30s", email) +
-                String.format("%-30s", phoneNumber);
+        return String.format("%-10s", "Name: ") +
+                String.format(name + "\n") +
+                String.format("%-10s", "Email: ") +
+                String.format(email + "\n") +
+                String.format("%-10s", "Phone: ") +
+                String.format(phoneNumber + "\n");
     }
 }
