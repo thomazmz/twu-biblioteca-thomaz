@@ -3,6 +3,7 @@ package com.twu.biblioteca.application.movie;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
+import com.twu.biblioteca.domain.book.Book;
 import com.twu.biblioteca.domain.borrowable.BorrowableItem;
 import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
@@ -14,7 +15,7 @@ import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 
 public class MovieController {
 
-    public static final String  HEADER = "MOVIES ( id | title | author| year )";
+    public static final String  HEADER = "MOVIES ( id | title | director| year )";
 
     public static final String CHECKOUT_INSTRUCTION = "Type the ID of the movie you would like to checkout: ";
 
@@ -34,7 +35,13 @@ public class MovieController {
         this.applicationIO = applicationIO;
     }
 
-    public void availableMovies() {
+    public void listMovies() {
+        applicationIO.print(LINE_BREAK + HEADER + LINE_BREAK);
+        Set<Movie> availableMovies = movieService.getAll();
+        applicationIO.print(availableMovies);
+    }
+
+    public void listAvailableMovies() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
         Set<Movie> availableBooks = movieService.getAvailables();
         applicationIO.print(availableBooks);

@@ -43,7 +43,7 @@ public class BookControllerTest {
         Set<Book> items = new LinkedHashSet(Arrays.asList(book));
         when(bookService.getAvailables()).thenReturn(items);
         // When
-        bookController.availableBooks();
+        bookController.listAvailableBooks();
         // Then
         verify(applicationIO, times(1)).print(items);
     }

@@ -97,6 +97,18 @@ public class BorrowableItemServiceTest {
     }
 
     @Test
+    public void shouldReturnAllBooks() {
+        // Given
+        Book book = mock(Book.class);
+        when(borrowableItemRepository.getAll()).thenReturn(new LinkedHashSet(Arrays.asList(book)));
+        // When
+        Set<Book> borrowedBooks = borrowableItemService.getAll();
+        // Then
+        assertThat(borrowedBooks.size(), is(1));
+        assertThat(borrowedBooks.contains(book), is(true));
+    }
+
+    @Test
     public void shouldReturnAvailableBooks() {
         // Given
         Book book = mock(Book.class);
@@ -106,7 +118,6 @@ public class BorrowableItemServiceTest {
         // Then
         assertThat(borrowedBooks.size(), is(1));
         assertThat(borrowedBooks.contains(book), is(true));
-
     }
 
     public class BorrowableItemServiceImplementation extends BorrowableItemService {

@@ -16,6 +16,10 @@ public abstract class BorrowableItemService<T extends BorrowableItem> {
         this.borrowableItemRepository = borrowableItemRepository;
     }
 
+    public Set<T> getAll() {
+        return this.borrowableItemRepository.getAll();
+    }
+
     public Set<T> getAvailables() {
         return this.borrowableItemRepository.getAvailables();
     }

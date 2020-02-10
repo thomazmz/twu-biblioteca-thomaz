@@ -3,12 +3,8 @@ package com.twu.biblioteca.application.movie;
 import com.twu.biblioteca.application.ApplicationIO;
 import com.twu.biblioteca.domain.UnavailableResourceException;
 import com.twu.biblioteca.domain.UnregisteredEntityIdException;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemRepository;
-import com.twu.biblioteca.domain.borrowable.BorrowableItemService;
 import com.twu.biblioteca.domain.movie.Movie;
 import com.twu.biblioteca.domain.movie.MovieService;
-import com.twu.biblioteca.domain.user.User;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,7 +16,6 @@ import java.util.LinkedHashSet;
 
 import static com.twu.biblioteca.application.ApplicationIO.LINE_BREAK;
 import static com.twu.biblioteca.application.movie.MovieController.*;
-import static com.twu.biblioteca.domain.movie.MovieTest.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,7 +38,7 @@ public class MovieControllerTest {
         // Given
         when(movieService.getAvailables()).thenReturn(new LinkedHashSet(Arrays.asList(movie)));
         // When
-        movieController.availableMovies();
+        movieController.listAvailableMovies();
         // Then
         verify(applicationIO, times(1)).print(new LinkedHashSet(Arrays.asList(movie)));
     }

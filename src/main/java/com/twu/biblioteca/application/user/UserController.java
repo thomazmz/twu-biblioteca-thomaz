@@ -1,6 +1,7 @@
 package com.twu.biblioteca.application.user;
 
 import com.twu.biblioteca.application.ApplicationIO;
+import com.twu.biblioteca.domain.user.User;
 import com.twu.biblioteca.domain.user.UserService;
 import com.twu.biblioteca.domain.user.WrongCredentialsException;
 
@@ -13,6 +14,8 @@ public class UserController {
     public static final String LOGIN_LIBRARY_NUMBER_SENTENCE = "Enter your library number ";
 
     public static final String LOGIN_PASSWORD_SENTENCE = "Enter your password: ";
+
+    private static final String USER_INFO_HEADER = "USER INFO";
 
     UserService userService;
 
@@ -40,5 +43,10 @@ public class UserController {
     private String askForPassword() {
         applicationIO.print(LOGIN_PASSWORD_SENTENCE);
         return applicationIO.readString();
+    }
+
+    public void showUserInfo() {
+        applicationIO.print(LINE_BREAK + USER_INFO_HEADER + LINE_BREAK);
+        applicationIO.print(userService.getCurrentUser().get());
     }
 }

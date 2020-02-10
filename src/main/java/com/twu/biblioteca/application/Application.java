@@ -45,19 +45,22 @@ public class Application {
         BookController bookController = new BookController(bookService, applicationIO);
         MovieController movieController = new MovieController(movieService, applicationIO);
 
-        mainMenu = new Menu("Main Menu");
-        mainMenu.setOption("1", "List of Books", bookController::availableBooks);
-        mainMenu.setOption("2", "List of Movies", movieController::availableMovies);
+        mainMenu = new Menu("MAIN MENU");
+        mainMenu.setOption("1", "List all books", bookController::listBooks);
+        mainMenu.setOption("2", "List all movies", movieController::listMovies);
         mainMenu.setOption("3", "Login with library number", userController::login);
         mainMenu.setOption("Q", "Quit application", this::kill);
 
-        userMenu = new Menu("User Menu");
-        userMenu.setOption("1", "List of Books", bookController::availableBooks);
-        userMenu.setOption("2", "Checkout a book", bookController::bookCheckout);
-        userMenu.setOption("3", "Return a book", bookController::bookReturn);
-        userMenu.setOption("4", "List of Movies", movieController::availableMovies);
-        userMenu.setOption("5", "Checkout a movie", movieController::movieCheckout);
-        userMenu.setOption("6", "List my borrowed books", bookController::getCurrentUserBorrowedBooks);
+        userMenu = new Menu("USER MENU");
+        userMenu.setOption("1", "List all books", bookController::listBooks);
+        userMenu.setOption("2", "List available books", bookController::listAvailableBooks);
+        userMenu.setOption("3", "List all movies", movieController::listMovies);
+        userMenu.setOption("4", "List available Movies", movieController::listAvailableMovies);
+        userMenu.setOption("5", "Checkout a book", bookController::bookCheckout);
+        userMenu.setOption("6", "Return a book", bookController::bookReturn);
+        userMenu.setOption("7", "Checkout a movie", movieController::movieCheckout);
+        userMenu.setOption("8", "List my borrowed books", bookController::getCurrentUserBorrowedBooks);
+        userMenu.setOption("9", "See user info", userController::showUserInfo);
         userMenu.setOption("Q", "Quit application", this::kill);
     }
 

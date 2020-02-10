@@ -49,7 +49,6 @@ public class UserControllerTest {
     public void shouldPrintFailMessageWhenUserTryToLogInWithWrongCredentials() throws WrongCredentialsException {
         // Given
         when(userService.login(any(String.class), any(String.class))).thenThrow(new WrongCredentialsException());
-//        when(applicationIO.readString()).thenReturn(LIBRARY_NUMBER, PASSWORD);
         // When
         userController.login();
         // Then

@@ -40,7 +40,13 @@ public class BookController {
         this.applicationIO = applicationIO;
     }
 
-    public void availableBooks() {
+    public void listBooks() {
+        applicationIO.print(LINE_BREAK + HEADER + LINE_BREAK);
+        Set<Book> availableBooks = bookService.getAll();
+        applicationIO.print(availableBooks);
+    }
+
+    public void listAvailableBooks() {
         applicationIO.print(LINE_BREAK + "AVAILABLE " + HEADER + LINE_BREAK);
         Set<Book> availableBooks = bookService.getAvailables();
         applicationIO.print(availableBooks);
